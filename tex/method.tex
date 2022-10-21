@@ -1,0 +1,182 @@
+\section{Method}
+Det vi skal se på er linear regression with gradient decent
+Først: presentere OLS og Ridge og cost-function. Så section på analytiske løsninger av dem, men dette tar mye datakraft. Så section på forskjellige gradient methods som er numerisk raskere. Så test gradient mot analytisk for å sjekke implementering. Så vis tid mot datasett størrelse med errorbars. Dvs kjør et par ganger så man får en variance.
+\begin{comment}
+	Describe the methods and algorithms. You need to
+	explain how you implemented the methods and also
+	say something about the structure of your algorithm
+	and present some parts of your code. You should
+	plug in some calculations to demonstrate your code,
+	such as selected runs used to validate and verify your
+	results. The latter is extremely important! A reader
+	needs to understand that your code reproduces selected
+	benchmarks and reproduces previous results, either
+	numerical and/or well-known closed form expressions.
+\end{comment}
+
+\subsection{Regression methods}
+Say we have a response $\mathbf{y}\in\mathbb{R}^n$ to $p$-number of features $\mathbf{x}_i=[x_{i0}, x_{i1},...,x_{ip-1}]$, where the set of these $\mathbf{X}=[\mathbf{x}_{0}\ \mathbf{x}_{1}\ ...\ \mathbf{x}_{n-1}]$ is called the design matrix of the model. 
+The point of regression analysis is then to find a assume linear relationship between $\mathbf{X}$ and $\mathbf{y}$. This assumption gives rise to the linear regression model where $\boldsymbol\beta=\left[\beta_0, \beta_1, ..., \beta_{p-1} \right]^T$ are the regression parameters and the error variable $\boldsymbol\epsilon$ is an unobserved random variable that adds "noise" to the linear relationship between the dependent variable and regressors. This gives the model
+\begin{equation*}
+	\tilde{y}(x_i) = \sum_{j=0}^{p-1} \beta_j x_{ij}=\mathbf X_{i*}\boldsymbol{\beta}.
+\end{equation*}
+Or on vector form
+\begin{equation*}
+\boldsymbol{\tilde y} = \mathbf{X}\boldsymbol\beta.
+\end{equation*}
+We can then re-write the response in terms of the model and noise as
+\begin{align*}
+\label{eq:linear_regression}
+    \mathbf{y} 
+	&=\boldsymbol{\tilde y} + \boldsymbol{\epsilon}\\
+	&=\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}.
+\end{align*}
+
+
+
+
+\subsubsection{Ordinary least squares (OLS)}
+The method of ordinary least squares computes the unique line that minimises the sum of squared differences between the true data and that line. In other words we have an optimisation problem on the form
+\begin{equation*}
+	{\displaystyle \min_{\boldsymbol{\beta}
+	\in{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2
+	=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+\end{equation*}
+where we have used the definition of a norm-2 vector, that is
+\begin{equation*}
+	\vert\vert \boldsymbol{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}.
+\end{equation*}
+We use this to define the cost function of OLS as
+\begin{equation}
+\label{eq:cost_ols}
+	C(\boldsymbol{X}, \boldsymbol\beta) 
+	=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+\end{equation}
+The $\boldsymbol\beta$ that optimizes this we call $\hat{\boldsymbol\beta}_{OLS}$, and looking at the cost function we see that this will be when the gradient is zero. 
+
+\subsubsection{Ridge}
+The ordinary least squares method can be inaccurate when the model have highly correlated independent variables. Ridge regression tries to solve this by adding a regularization parameter $\lambda$, called a hyperparameter, to the optimization problem. We start by re-writing the optimization problem as 
+\begin{equation*}
+	{\displaystyle \min_{\boldsymbol{\beta}\in
+	{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}
+	-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2,
+\end{equation*}
+where we require that $\vert\vert \boldsymbol{\beta}\vert\vert_2^2\le t$, where $t$ is a finite number larger than zero. Our cost function the becomes
+\begin{equation}
+\label{eq:cost_ridge}
+	C(\boldsymbol{X},\boldsymbol{\beta}
+	)=\frac{1}{n}\vert\vert \boldsymbol{y}
+	-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2,
+\end{equation}
+
+As with the OLS this is minimized when the gradient is zero, and we call the $\boldsymbol\beta$ that optimizes this for $\hat{\boldsymbol\beta}_{Ridge}$. 
+
+\subsubsection{Closed-form solutions}
+Both the OLS- and Ridge-methods have closed-form analytical solutions. These can easily be found by deriving the cost function with respect to $\boldsymbol{\beta}$. 
+\subsection{Gradient methods}
+%Test gradient methods against ols and ridge analytical to check
+%if code works properly
+\subsubsection{Plain gradient decent}
+
+\subsubsection{GD with momentum}
+
+\subsubsection{Stochastic gradient decent}
+
+
+
+
+
+
+We start off by looking at the gradient decent
+
+\begin{lstlisting}
+FUNCTION plain_gradient_decent(X, y, hyperparameters, eta, Niterations, epsilon)
+	beta = random_number()
+
+	step_size = inf
+	iter = 0
+	WHILE iter < Niterations AND step_size >= epsilon
+		gradients = calculate_gradients(X, y, beta, hyperparameters)
+		step_size = eta * gradients
+		beta = beta - step_size
+		iter = iter + 1
+	END WHILE
+	return beta
+END FUNCTION
+\end{lstlisting}
+
+
+
+
+
+\begin{comment}
+\subsection{Linear regression}
+	\subsubsection{Ordinary least squares}
+	%%FIrst sentence here is from wikipedia
+
+
+
+	Inserting the predicted values $\mathbf{\tilde y}=\mathbf{X}\boldsymbol\beta$ we get
+
+	$$
+	C(\boldsymbol\beta) = \frac{1}{n}\sum_{i=0}^{n-1}(y_i-\tilde{y}_i)^2=\frac{1}{n}\left[(\mathbf{y}-\mathbf{X}\boldsymbol\beta)^T(\mathbf{y}-\mathbf{X}\boldsymbol\beta) \right].
+	$$
+
+	We call optimal parameter $\hat{\boldsymbol\beta}$ the one that minimises the cost function. This will be a zero of the derivative
+
+	$$
+	\frac{\partial \boldsymbol\beta}{\partial \beta_j} = 0.
+	$$
+
+	Doing this derivative gives
+
+	$$
+	\mathbf{X}^T (\mathbf{y}-\mathbf{X}\hat{\boldsymbol{\beta}} )=0.
+	$$
+
+	Rewriting this we get that
+
+	\begin{equation}\label{eq:beta_OLS}
+	    \hat{\boldsymbol\beta}_{OLS}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+		\end{equation}
+		is the optimal parameter if the Hessian matrix $\mathbf{H}=(\mathbf{X}^T\mathbf{X})$ is invertible. This has expectation value 
+		\begin{equation}\label{eq:expectation_beta}
+		\mathbb{E}(\boldsymbol{\hat{\beta}}) =\boldsymbol{\beta}
+		\end{equation}
+		and variance
+		\begin{equation}\label{eq:variance_beta}
+		\mbox{Var}(\boldsymbol{\hat{\beta}})  = \sigma^2 \, (\mathbf{X}^{T} \mathbf{X})^{-1}.
+		\end{equation}
+		The calculations for this can be found in appendix \ref{app:ols_expactation_variance}.
+
+
+		\subsubsection{Ridge}
+		The ordinary least squares method can be inaccurate when the model have highly correlated independent variables. Ridge regression tries to solve this by adding a regularization parameter $\lambda$, called a hyperparameter, to the optimization problem. We start by re-writing the optimization problem as 
+		%%FROM HERE IS COPIED ALMOST ENIRELY FROM NOTES
+		$$
+		{\displaystyle \min_{\boldsymbol{\beta}\in
+		{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+		$$
+		where we have used the definition of  a norm-2 vector, that is
+		$$
+		\vert\vert \boldsymbol{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}.
+		$$
+		By adding the regularization parameter $\lambda$ we get that
+		$$
+		{\displaystyle \min_{\boldsymbol{\beta}\in
+		{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2,
+		$$
+		where we
+		require that $\vert\vert \boldsymbol{\beta}\vert\vert_2^2\le t$, where $t$ is
+		a finite number larger than zero. We define the cost function to be optimized, that is
+		$$
+		C(\boldsymbol{X},\boldsymbol{\beta})=\left\{(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^T(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})\right\}+\lambda\boldsymbol{\beta}^T\boldsymbol{\beta},
+		$$
+		Minimizing the above equation in the same way as we did OLS gives the optimal parameter
+		\begin{equation}\label{eq:beta_ridge}
+		\hat{\boldsymbol{\beta}}_{\mathrm{Ridge}} = \left(\boldsymbol{X}^T\boldsymbol{X}+\lambda\boldsymbol{I}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y}.
+		\end{equation}
+		This means that the Ridge estimator scales the OLS estimator by the inverse of a factor $(1+\lambda)$.
+
+
+\end{comment}
