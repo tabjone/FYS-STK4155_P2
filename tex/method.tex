@@ -85,7 +85,6 @@ Both the OLS- and Ridge-methods have closed-form analytical solutions. These can
 %if code works properly
 \subsubsection{Plain gradient decent}
 
-\subsubsection{GD with momentum}
 
 \subsubsection{Stochastic gradient decent}
 Strictly speaking stochastic gradient decent is taking one sample per step. 
@@ -113,6 +112,25 @@ FUNCTION plain_gradient_decent(X, y, hyperparameters, eta, Niterations, epsilon)
 	return beta
 END FUNCTION
 \end{lstlisting}
+
+
+\subsubsection{SGD with momentum}
+One simple way of improving the convergence rate of the SGD method, is to
+include a momentum term: 
+\begin{equation*}
+    \theta _{t+1} = \theta _t - \eta \nabla_\theta E(\theta )+\gamma (\theta_t
+    -\theta_{t-1}     ) ,
+\end{equation*}
+where $\gamma $ is a momentum parameter, with $0\leq \gamma \leq1$. That last
+term serves as a memory term. Our goal is to find the
+global minima where the gradient is zero. Our ordinary gradient descent method
+is sensitive to noise, and local variations in our data.
+This often lead to a behavior where our values for $\theta $ oscillates
+towards the global minima. % TODO: create figure  
+By introducing a momentum term our gradient method will better be able to move
+directly towards the global minima. This is due to information about the previous
+gradients in our update scheme.     
+
 
 
 
