@@ -1,6 +1,9 @@
 \section{Method}
 Det vi skal se på er linear regression with gradient decent
-Først: presentere OLS og Ridge og cost-function. Så section på analytiske løsninger av dem, men dette tar mye datakraft. Så section på forskjellige gradient methods som er numerisk raskere. Så test gradient mot analytisk for å sjekke implementering. Så vis tid mot datasett størrelse med errorbars. Dvs kjør et par ganger så man får en variance.
+Først: presentere OLS og Ridge og cost-function. Så section på analytiske løsninger av dem, men dette tar mye datakraft. 
+Så section på forskjellige gradient methods som er numerisk raskere. Så test gradient mot analytisk for å sjekke implementering. 
+Så vis tid mot datasett størrelse med errorbars. 
+Dvs kjør et par ganger så man får en variance.
 \begin{comment}
 	Describe the methods and algorithms. You need to
 	explain how you implemented the methods and also
@@ -16,7 +19,8 @@ Først: presentere OLS og Ridge og cost-function. Så section på analytiske lø
 
 \subsection{Regression methods}
 Say we have a response $\mathbf{y}\in\mathbb{R}^n$ to $p$-number of features $\mathbf{x}_i=[x_{i0}, x_{i1},...,x_{ip-1}]$, where the set of these $\mathbf{X}=[\mathbf{x}_{0}\ \mathbf{x}_{1}\ ...\ \mathbf{x}_{n-1}]$ is called the design matrix of the model. 
-The point of regression analysis is then to find a assume linear relationship between $\mathbf{X}$ and $\mathbf{y}$. This assumption gives rise to the linear regression model where $\boldsymbol\beta=\left[\beta_0, \beta_1, ..., \beta_{p-1} \right]^T$ are the regression parameters and the error variable $\boldsymbol\epsilon$ is an unobserved random variable that adds "noise" to the linear relationship between the dependent variable and regressors. This gives the model
+The point of regression analysis is then to find a assume linear relationship between $\mathbf{X}$ and $\mathbf{y}$. 
+This assumption gives rise to the linear regression model where $\boldsymbol\beta=\left[\beta_0, \beta_1, ..., \beta_{p-1} \right]^T$ are the regression parameters and the error variable $\boldsymbol\epsilon$ is an unobserved random variable that adds "noise" to the linear relationship between the dependent variable and regressors. This gives the model
 \begin{equation*}
 	\tilde{y}(x_i) = \sum_{j=0}^{p-1} \beta_j x_{ij}=\mathbf X_{i*}\boldsymbol{\beta}.
 \end{equation*}
@@ -36,7 +40,8 @@ We can then re-write the response in terms of the model and noise as
 
 
 \subsubsection{Ordinary least squares (OLS)}
-The method of ordinary least squares computes the unique line that minimises the sum of squared differences between the true data and that line. In other words we have an optimisation problem on the form
+The method of ordinary least squares computes the unique line that minimises the sum of squared differences between the true data and that line.
+In other words we have an optimisation problem on the form
 \begin{equation*}
 	{\displaystyle \min_{\boldsymbol{\beta}
 	\in{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2
@@ -55,7 +60,9 @@ We use this to define the cost function of OLS as
 The $\boldsymbol\beta$ that optimizes this we call $\hat{\boldsymbol\beta}_{OLS}$, and looking at the cost function we see that this will be when the gradient is zero. 
 
 \subsubsection{Ridge}
-The ordinary least squares method can be inaccurate when the model have highly correlated independent variables. Ridge regression tries to solve this by adding a regularization parameter $\lambda$, called a hyperparameter, to the optimization problem. We start by re-writing the optimization problem as 
+The ordinary least squares method can be inaccurate when the model have highly correlated independent variables. 
+Ridge regression tries to solve this by adding a regularization parameter $\lambda$, called a hyperparameter, to the optimization problem. 
+We start by re-writing the optimization problem as 
 \begin{equation*}
 	{\displaystyle \min_{\boldsymbol{\beta}\in
 	{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}
@@ -81,6 +88,8 @@ Both the OLS- and Ridge-methods have closed-form analytical solutions. These can
 \subsubsection{GD with momentum}
 
 \subsubsection{Stochastic gradient decent}
+Strictly speaking stochastic gradient decent is taking one sample per step. 
+However it is much more common to select a small subset of data called a mini-batch at each step.
 
 
 
