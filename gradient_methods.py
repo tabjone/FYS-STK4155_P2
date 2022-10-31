@@ -8,19 +8,19 @@ import sys
 
 """Closed-from Regression methods: OLS, Ridge"""
 def beta_ols_regression(X, y):
-	"""
-	Calculates beta-parameters using OLS regression
-	"""
-	return np.linalg.inv(X.T @ X) @ X.T @ y
+    """
+    Calculates beta-parameters using OLS regression
+    """
+    return np.linalg.inv(X.T @ X) @ X.T @ y
 
 def beta_ridge_regression(X, y, lmbda):
-	"""
-	Calculates beta-parameters using Ridge regression
-	"""
-	XT_X = X.T @ X
-	n = len(y)
-	Id = n*lmbda* np.eye(XT_X.shape[0])
-	return np.linalg.inv(XT_X + Id) @ X.T @ y
+    """
+    Calculates beta-parameters using Ridge regression
+    """
+    XT_X = X.T @ X
+    n = len(y)
+    Id = n*lmbda* np.eye(XT_X.shape[0])
+    return np.linalg.inv(XT_X + Id) @ X.T @ y
 
 
 """Gradients: OLS and Ridge"""
@@ -53,67 +53,83 @@ def step_momentum_GD(step_size, momentum, previous_step_size):
     return - step_size + momentum * previous_step_size
 
 
-"""Calculate step size for stochastic or regular GD"""
-def stochastic_step_size(X, y, gradient, solution, lmbda, eta, batch_size=None):
-    """
-    Step size stochastic GD
-    """
-	#chosing random mini-batch and calculating step-size
-    batch_nr = np.random.randint(batch_size)
-    mini_batch = X[batch_nr]
-    step_size = eta * gradient(mini_batch, y[batch_nr], solution, lmbda) 
-    return step_size
-
-def regular_step_size(X, y, gradient, solution, lmbda, eta, batch_size=None):
-    """
-    Step stize non-stochastic GD
-    """
-    step_size = eta*gradient(X, y, solution, lmbda)
-    return step_size
-
-
-
 """GD OLS and Ridge, Stochastic or regular, with momentum or not"""
-def gradient_decent(X, y, eta, Niterations, epsilon, initial_solution, momentum=0.9,\
-                    lmbda=None, regression_method=None, momentum_GD=False, stochastic=False, batch_size=None):
-        """
-        GD method with option for momentum and stochastic
-        """
-        #setting up initial solution
-        solution = initial_solution
+def gradient_decent(X, y, eta, Niterations, epsilon, initial_solution, momentum=0.9, lmbda=None, regression_method=None, momentum_GD=False, learning_schedule=None):
+    """
+    GD method with option for momentum
+    """
+    #setting up initial solution
+    solution = initial_solution
 
-        #getting gradient
-        if regression_method.upper() == 'OLS': gradient = gradient_ols
-        elif regression_method.upper() == 'RIDGE': gradient = gradient_ridge
-        else: raise ValueError('Wrong input in regression_method')
+    #getting gradient
+    if regression_method.upper() == 'OLS': gradient = gradient_ols
+    elif regression_method.upper() == 'RIDGE': gradient = gradient_ridge
+    else: raise ValueError('Wrong input in regression_method')
 
-        #getting step-function
-        if momentum_GD: step = step_momentum_GD
-        else: step = step_plain_GD
+    #getting step-function
+    if momentum_GD: step = step_momentum_GD
+    else: step = step_plain_GD
 
-        #getting iteration step-size for stochastic or regular GD
-        if stochastic:
-            step_size_func = stochastic_step_size
-            #splitting array
-            X = np.array_split(X, batch_size, axis=0) 
-            y = np.array_split(y, batch_size)
-        else: step_size_func = regular_step_size
+    #creating memory term
+    previous_step_size = 0
+    #creating inf first step-size to start while loop
+    step_size = np.array([np.inf])	
+    #Iterating untill step-size is smaller than epsilon or max number of iterations is reached
+    iter = 0
+    while (iter < Niterations) and (np.linalg.norm(step_size) >= epsilon): 
+        step_size = eta*gradient(X, y, solution, lmbda)
+        #take a step
+        solution += step(step_size, momentum, previous_step_size)
+        iter += 1
+        #save step
+        previous_step_size = step_size
+    return solution
 
-        #creating memory term
-        previous_step_size = 0
-        #creating inf first step-size to start while loop
-        step_size = np.array([np.inf])	
-        #Iterating untill step-size is smaller than epsilon or max number of iterations is reached
-        iter = 0
-        while (iter < Niterations) and (np.linalg.norm(step_size) >= epsilon): 
-                step_size = step_size_func(X, y, gradient, solution, lmbda, eta, batch_size)
-                #take a step
-                solution += step(step_size, momentum, previous_step_size)
-                iter += 1
-                #save step
-                previous_step_size = step_size
-        return solution
 
+def stochastic_gradient_decent(X, y, theta0, n_epochs, size_minibatch,
+    momentum=0.9, lmbda=None, regression_method=None, momentum_GD=False, stochastic=False, batch_size=None, learning_schedule=None, eta=None):
+    """
+    Stochastic GD with momentum
+    """
+    #getting gradient
+    if regression_method.upper() == 'OLS': gradient = gradient_ols
+    elif regression_method.upper() == 'RIDGE': gradient = gradient_ridge
+    else: raise ValueError('Wrong input in regression_method')
+
+    #getting step-function
+    if momentum_GD: step = step_momentum_GD
+    else: step = step_plain_GD
+
+    #returning eta if no learning schedule is set.
+    if learning_schedule==None: 
+        learning_schedule = lambda t : eta
+        if eta == None:
+            raise TypeError('Must include learning schedule or learning rate')
+
+    #creating memory term
+    previous_step_size = 0
+
+
+    theta = theta0
+    M = size_minibatch   #size of each minibatch
+    m = int(n/M) #number of minibatches
+
+    for epoch in range(n_epochs):
+        for i in range(m):
+            random_index = M*np.random.randint(m)
+            xi = X[random_index:random_index+M]
+            yi = y[random_index:random_index+M]
+            eta = learning_schedule(epoch*m+i)
+            step_size = eta * gradient(xi, yi, theta, lmbda)
+            theta += step(step_size, momentum, previous_step_size)
+            previous_step_size = step_size
+    return theta
+
+
+
+
+def learning_schedule_decay(t, t0, t1):
+    return t0/(t+t1)
 """
 Task: 
 -Use a tunable learning rate as discussed in the lectures from week 39."
@@ -126,101 +142,81 @@ Task:
 
 """
 Notes:
-It is usual to start with a large learning rate and make it smaller with each step. The way the learning rate changes from big to small is called the scedule
 Momentum=0.9 is regular
-
-mini-batches should be in powers of 2. Makes it computationally faster or something
-
 """
 
 if __name__ == '__main__':
-	# the number of datapoints
-	n = 100
-	x = 2*np.random.rand(n,1)
-	y = 4+3*x+np.random.randn(n,1)
+    # the number of datapoints
+    n = 100
+    x = 2*np.random.rand(n,1)
+    y = 4+3*x+np.random.randn(n,1)
 
-	X = np.c_[np.ones((n,1)), x]
+    X = np.c_[np.ones((n,1)), x]
 
-	#Ridge parameter lambda
-	lmbda  = 0.001
+    #Ridge parameter lambda
+    lmbda  = 0.001
 
 
-	XT_X = X.T @ X
-	# Hessian matrix
-	H = (2.0/n)* XT_X+2*lmbda* np.eye(XT_X.shape[0])
-	# Get the eigenvalues
-	EigValues, EigVectors = np.linalg.eig(H)
-	#print(f"Eigenvalues of Hessian Matrix:{EigValues}")
+    XT_X = X.T @ X
+    # Hessian matrix
+    H = (2.0/n)* XT_X+2*lmbda* np.eye(XT_X.shape[0])
+    # Get the eigenvalues
+    EigValues, EigVectors = np.linalg.eig(H)
+    #print(f"Eigenvalues of Hessian Matrix:{EigValues}")
 
-	eta = 1.0/np.max(EigValues)
-	
-	epsilon = 0.001
-	#print("eigenvalues ")
-	Niterations = 1000
+    eta = 1.0/np.max(EigValues)
 
-	#plotting data
-	plt.plot(x,y,'ro', label='data')
-	
-	#choosing random first value, this is normal
-	first_value = np.random.randn(2,1)
-	
-	#beta values for plain GD
-	beta_plain_ols = gradient_decent(X, y, eta, Niterations, epsilon, first_value, regression_method='OLS')	
-	beta_plain_ridge = gradient_decent(X, y, eta, Niterations, epsilon, first_value, lmbda=lmbda, regression_method='Ridge')
-	
-	#predicted values plain GD
-	ypredict_plain_ols = X @ beta_plain_ols
-	ypredict_plain_ridge = X @ beta_plain_ridge
+    epsilon = 0.001
+    #print("eigenvalues ")
+    Niterations = 1000
 
-	#beta values for momentum GD
-	beta_mgd_ols = gradient_decent(X, y, eta, Niterations, epsilon, first_value, regression_method='OLS', momentum_GD=True)	
-	beta_mgd_ridge = gradient_decent(X, y, eta, Niterations, epsilon, first_value, lmbda=lmbda, regression_method='Ridge', momentum_GD=True)	
-	
-	#predicted values momentum GD
-	ypredict_mgd_ols = X @ beta_mgd_ols
-	ypredict_mgd_ridge = X @ beta_mgd_ridge
+    #plotting data
+    plt.plot(x,y,'ro', label='data')
 
-	#Beta values for stochastic GD with momentum
-Nepochs = 20
+    #choosing random first value, this is normal
+    first_value = np.random.randn(2,1)
 
-first_beta_sgd_ols = first_value
-first_beta_sgd_ridge = first_value
-for epoch in range(Nepochs):
-    first_beta_sgd_ols = gradient_decent(X, y, eta, Niterations, epsilon, first_beta_sgd_ols, \
-            regression_method='OLS', momentum_GD=True, stochastic=True, batch_size=4)
-    first_beta_sgd_ridge = gradient_decent(X, y, eta, Niterations, epsilon, first_beta_sgd_ridge, lmbda=lmbda,\
-            regression_method='Ridge', momentum_GD=True, stochastic=True, batch_size=4)
+    #beta values for plain GD
+    beta_plain_ols = gradient_decent(X, y, eta, Niterations, epsilon, first_value, regression_method='OLS')	
+    beta_plain_ridge = gradient_decent(X, y, eta, Niterations, epsilon, first_value, lmbda=lmbda, regression_method='Ridge')
 
-beta_sgd_ols = first_beta_sgd_ols
-beta_sgd_ridge = first_beta_sgd_ridge
+    #predicted values plain GD
+    ypredict_plain_ols = X @ beta_plain_ols
+    ypredict_plain_ridge = X @ beta_plain_ridge
 
-#predicted values stochastic momentum GD
-ypredict_sgd_ols = X @ beta_sgd_ols
-ypredict_sgd_ridge = X @ beta_sgd_ridge
+    #beta values for momentum GD
+    beta_mgd_ols = gradient_decent(X, y, eta, Niterations, epsilon, first_value, regression_method='OLS', momentum_GD=True)	
+    beta_mgd_ridge = gradient_decent(X, y, eta, Niterations, epsilon, first_value, lmbda=lmbda, regression_method='Ridge', momentum_GD=True)	
 
-#plotting
-plt.plot(x,ypredict_plain_ols,label='plain ols')
-plt.plot(x,ypredict_plain_ridge,label='plain ridge')
+    #predicted values momentum GD
+    ypredict_mgd_ols = X @ beta_mgd_ols
+    ypredict_mgd_ridge = X @ beta_mgd_ridge
 
-plt.plot(x, ypredict_mgd_ols, label='momentum GD ols')
-plt.plot(x, ypredict_mgd_ridge, label='momentum GD Ridge')
+    #Beta values for stochastic GD with momentum
 
-plt.plot(x, ypredict_sgd_ols, label='stochastic OLS')
-plt.plot(x, ypredict_sgd_ridge, label='stochastic Ridge')
+    n_epochs = 20
+    size_minibatch = 5
 
-plt.legend()
-plt.show()
+    learning_schedule = lambda t : learning_schedule_decay(t, t0=5, t1=50) 
 
-"""	
-beta_linreg = beta_ridge_regression(X, y, lmbda)
-ypredict = X @ beta
-ypredict2 = X @ beta_linreg
-plt.plot(x, ypredict, "r-")
-plt.plot(x, ypredict2, "b-")
-plt.plot(x, y ,'ro')
-plt.axis([0,2.0,0, 15.0])
-plt.xlabel(r'$x$')
-plt.ylabel(r'$y$')
-plt.title(r'Gradient descent example for Ridge')
-plt.show()
-"""
+
+    beta_sgd_ols = stochastic_gradient_decent(X, y, first_value, n_epochs, size_minibatch, regression_method='OLS', learning_schedule=learning_schedule, momentum_GD=True)
+    beta_sgd_ridge = stochastic_gradient_decent(X, y, first_value, n_epochs, size_minibatch, regression_method='Ridge', lmbda=lmbda, learning_schedule=learning_schedule)
+
+    #predicted values stochastic momentum GD
+    ypredict_sgd_ols = X @ beta_sgd_ols
+    ypredict_sgd_ridge = X @ beta_sgd_ridge
+
+    #plotting
+    plt.plot(x,ypredict_plain_ols,label='plain ols')
+    plt.plot(x,ypredict_plain_ridge,label='plain ridge')
+
+    plt.plot(x, ypredict_mgd_ols, label='momentum GD ols')
+    plt.plot(x, ypredict_mgd_ridge, label='momentum GD Ridge')
+
+    plt.plot(x, ypredict_sgd_ols, label='stochastic OLS')
+    plt.plot(x, ypredict_sgd_ridge, label='stochastic Ridge')
+
+    plt.legend()
+    plt.show()
+
