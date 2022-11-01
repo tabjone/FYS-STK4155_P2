@@ -108,24 +108,6 @@ These can easily be found by deriving the cost function with respect to $\boldsy
 %Something general about gradient methods
 
 \subsubsection{Plain gradient decent}
-%NOT STARTED
-%This function is for plain/steepest gradient decent. Can be replaced by
-%general algorithm instead if wanted.
-\begin{lstlisting}
-FUNCTION plain_gradient_decent(X, y, hyperparameters, eta, Niterations, epsilon)
-	beta = random_number()
-
-	step_size = inf
-	iter = 0
-	WHILE iter < Niterations AND step_size >= epsilon
-		gradients = calculate_gradients(X, y, beta, hyperparameters)
-		step_size = eta * gradients
-		beta = beta - step_size
-		iter = iter + 1
-	END WHILE
-	return beta
-END FUNCTION
-\end{lstlisting}
 
 %% Algorithm for plain gradient decent
 \begin{algorithm}
