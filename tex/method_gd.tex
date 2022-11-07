@@ -1,0 +1,391 @@
+\section{Method}
+%% THIS I CANT DO BECAUSE BIBITEM THING DONT WORK FOR ME @tabjone
+%% TODO IMPORTANT Add referance to 
+%https://www.deeplearningbook.org/contents/optimization.html
+%for all algos it's chapter 8
+
+% I WILL DO THIS @tabjone
+%TODO test gradient methods against analytical solution or regression methods.
+%TODO create time vs dataset size for different methods with variance as
+%errorbars. So run a couple of times 
+
+
+\begin{comment}
+	Describe the methods and algorithms. You need to
+	explain how you implemented the methods and also
+	say something about the structure of your algorithm
+	and present some parts of your code. You should
+	plug in some calculations to demonstrate your code,
+	such as selected runs used to validate and verify your
+	results. The latter is extremely important! A reader
+	needs to understand that your code reproduces selected
+	benchmarks and reproduces previous results, either
+	numerical and/or well-known closed form expressions.
+\end{comment}
+
+
+\subsection{Regression methods}
+%%
+%% FINISHED THEORY
+%%
+{
+    Say we have a response $\mathbf{y}\in\mathbb{R}^n$ to $p$-number of features $\mathbf{x}_i=[x_{i0}, x_{i1},...,x_{ip-1}]$,
+    where the set of these $\mathbf{X}=[\mathbf{x}_{0}\ \mathbf{x}_{1}\ ...\ \mathbf{x}_{n-1}]$ is called the design matrix of the model. 
+    The point of regression analysis is then to find a assume linear relationship between $\mathbf{X}$ and $\mathbf{y}$. 
+    This assumption gives rise to the linear regression model where $\boldsymbol\beta=\left[\beta_0, \beta_1, ..., \beta_{p-1} \right]^T$ 
+    are the regression parameters and the error variable $\boldsymbol\epsilon$ is an unobserved random variable that adds 
+    "noise" to the linear relationship between the dependent variable and regressors. This gives the model
+    \begin{equation*}
+        \tilde{y}(x_i) = \sum_{j=0}^{p-1} \beta_j x_{ij}=\mathbf X_{i*}\boldsymbol{\beta}.
+    \end{equation*}
+    Or on vector form
+    \begin{equation*}
+    \boldsymbol{\tilde y} = \mathbf{X}\boldsymbol\beta.
+    \end{equation*}
+    We can then re-write the response in terms of the model and noise as
+    \begin{align*}
+    \label{eq:linear_regression}
+        \mathbf{y} 
+        &=\boldsymbol{\tilde y} + \boldsymbol{\epsilon}\\
+        &=\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}.
+    \end{align*}
+}
+
+
+
+\subsubsection{Ordinary least squares (OLS)}
+%%
+%% FINISHED THEORY
+%%
+{
+    The method of ordinary least squares computes the unique line that minimises the sum of squared differences between the true data and that line.
+    In other words we have an optimisation problem on the form
+    \begin{equation*}
+        {\displaystyle \min_{\boldsymbol{\beta}
+        \in{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2
+        =\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+    \end{equation*}
+    where we have used the definition of a norm-2 vector, that is
+    \begin{equation*}
+        \vert\vert \boldsymbol{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}.
+    \end{equation*}
+    We use this to define the cost function of OLS as
+    \begin{equation}
+    \label{eq:cost_ols}
+        C(\boldsymbol{X}, \boldsymbol\beta) 
+        =\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+    \end{equation}
+    The $\boldsymbol\beta$ that optimizes this we call $\hat{\boldsymbol\beta}_{OLS}$, and looking at the cost function we see that this will be when the gradient is zero. 
+}
+
+\subsubsection{Ridge}
+%%
+%% FINISHED THEORY
+%%
+{
+    The ordinary least squares method can be inaccurate when the model have highly correlated independent variables. 
+    Ridge regression tries to solve this by adding a regularization parameter $\lambda$, called a hyperparameter, to the optimization problem. 
+    We start by re-writing the optimization problem as 
+    \begin{equation*}
+        {\displaystyle \min_{\boldsymbol{\beta}\in
+        {\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}
+        -\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2,
+    \end{equation*}
+    where we require that $\vert\vert \boldsymbol{\beta}\vert\vert_2^2\le t$, where $t$ is a finite number larger than zero. Our cost function the becomes
+    \begin{equation}
+    \label{eq:cost_ridge}
+        C(\boldsymbol{X},\boldsymbol{\beta}
+        )=\frac{1}{n}\vert\vert \boldsymbol{y}
+        -\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2,
+    \end{equation}
+
+    As with the OLS this is minimized when the gradient is zero, and we call the $\boldsymbol\beta$ that optimizes this for $\hat{\boldsymbol\beta}_{Ridge}$. 
+}
+
+\subsection{Cost-function}
+%%
+%% FINISHED THEORY
+%%
+{
+    For both of the regression methods presented here they have what is called
+    a cost-function $C(\boldsymbol{X}, \boldsymbol{\beta})$. This is a measure
+    of how close the predicted solution is to the true solution (often called
+    the target). You can define many different cost functions, but in the above
+    we used the mean squared error. The reason the OLS and Ridge regression
+    methods are useful when evaluating a model is twofold. They have nice
+    derivatives, which makes them easy to implement in a gradient method. And
+    they have closed-form analytical expressions that can be found by deriving
+    the cost-function with respect to $\boldsymbol{\beta}$, which we can then
+    use to compare to our predicted solutions.
+}
+
+\subsection{Gradient methods}
+% DONE
+The goal of all gradient methods is to minimize the cost function. And we do
+this by iteratively calculating the gradient of the cost function and stepping
+in the direction where it gets smaller, updating the parameters and doing the
+calculations again. The easiest of the gradient methods is the plain gradient
+decent, which we will look at first. All of these gradient decent methods have
+a stopping criterion that is usually given by a maximum number of iterations or
+when the step size is smaller than a given value.
+
+\subsubsection{Plain gradient decent}
+% DONE
+%% Algorithm for plain gradient decent
+\begin{algorithm}
+\caption{The plain gradient decent algorithm}\label{alg:plain_gd}
+\begin{algorithmic}
+    \Require{Learning rate $\epsilon$}
+    \Require{Initial parameter $\boldsymbol\theta$}
+    
+    \While{stopping criterion not met}
+        
+        Compute gradient: $\boldsymbol{g}\gets \frac{1}{N}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        ($N$ is size of training set)
+
+        Apply update: $\boldsymbol\theta \gets \boldsymbol\theta
+        -\epsilon\boldsymbol{g}$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+In the algorithm for the plain gradient decent we see that there is an added
+term $\epsilon$ (or often $\eta$) which is called the learning rate. This is implemented to regulate
+the step-size so that we don't easily overstep the minimum of the
+cost-function. This learning rate is not always constant and we then call it
+the learning schedule. For example it is usual to use a learning schedule that
+decays with the number of iterations as can be seen in the function below.
+\begin{lstlisting}
+    FUNCTION epsilon(t, t0, t1):
+        return t0/(t+t1)
+    ENDFUNCTION
+\end{lstlisting}
+
+
+\subsubsection{Stochastic gradient decent (SGD)}
+% DONE
+The problem with plain gradient decent is that when the size of the dataset
+gets big, so does the computation time. 
+Stochastic gradient decent fixes this by splitting the dataset into mini-batches and calculating the gradient only on this
+mini-batch of the dataset. When this mini-batch is chosen at random it should approximate
+the gradient, given that the dataset is smooth and well behaved.
+
+%% Algorithm for SGD
+\begin{algorithm}
+\caption{The SGD algorithm}\label{alg:SGD}
+\begin{algorithmic}
+    \Require{Learning rate schedule $\epsilon_1, \epsilon_2, ...$}
+    \Require{Initial parameter $\boldsymbol{\theta}$}
+    \\
+    $k\gets1$
+    \While{stopping criterion not met}
+
+     Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+        
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        Apply update: $\boldsymbol{\theta} \gets
+        \boldsymbol{\theta}-\epsilon_k\boldsymbol{g}$
+
+        $k\gets k+1$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsubsection{SGD with momentum}
+% DONE
+One simple way of improving the convergence rate of the SGD method, is to
+include a momentum term: 
+\begin{equation*}
+    \theta _{t+1} = \theta _t - \eta \nabla_\theta E(\theta )+\gamma (\theta_t
+    -\theta_{t-1}     ) ,
+\end{equation*}
+where $\gamma $ is a momentum parameter, with $0\leq \gamma \leq1$. That last
+term serves as a memory term. Our goal is to find the
+global minima where the gradient is zero. Our ordinary gradient descent method
+is sensitive to noise, and local variations in our data.
+This often lead to a behavior where our values for $\theta $ oscillates
+towards the global minima. % TODO: create figure  
+By introducing a momentum term our gradient method will better be able to move
+directly towards the global minima. This is due to information about the previous
+gradients in our update scheme.     
+
+%% Algo SGD with momentum
+\begin{algorithm}
+\caption{The SGD with momentum algorithm}\label{alg:SGD_momentum}
+\begin{algorithmic}
+    \Require{Learning rate $\epsilon$, momentum parameter $\alpha$}
+    \Require{Initial parameter $\boldsymbol\theta$, initial velocity
+    $\boldsymbol{v}$}
+
+    \While{stopping criterion not met}
+
+         Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+        
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        Compute velocity update: $\boldsymbol{v} \gets \alpha\boldsymbol{v} -
+        \epsilon\boldsymbol{g}$
+
+        Apply update: $\boldsymbol{\theta} \gets
+        \boldsymbol{\theta}+\boldsymbol{v}$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\subsubsection{RMSProp, AdaGrad and Adam}
+% DONE?
+In stochastic gradient descent, with and without momentum, we still have to
+specify a schedule for tuning the learning rates as a function of time.
+As discussed in the context of Newton's method, this presents a number of dilemmas.
+The learning rate is limited by the steepest direction which can change
+depending on the current position in the landscape.
+To circumvent this problem, ideally our algorithm would keep track of curvature
+and take large steps in shallow, flat directions and small steps in steep,
+narrow directions. Second-order methods accomplish this by calculating or
+approximating the Hessian and normalizing the learning rate by the curvature.
+However, this is very computationally expensive for extremely large models.
+Ideally, we would like to be able to adaptively change the step size to match
+the landscape without paying the steep computational price of calculating or
+approximating Hessians. Recently, a number of methods have been introduced that
+accomplish this by tracking not only the gradient, but also the second moment
+of the gradient. These methods include AdaGrad, AdaDelta, Root Mean Squared
+Propagation (RMS-Prop), and ADAM. Here follows the algorithms for some of these
+methods.
+
+In the following algorithms $\odot$ is the Hadamat product, that is an
+element-wise array operation.
+
+%%% Algorithm for RMSProp %%%
+\begin{algorithm}
+\caption{The RMSProp algorithm}\label{alg:RMSProp}
+\begin{algorithmic}
+    \Require{Global learning rate $\epsilon$, decay rate $\rho$}
+    \Require{Initial parameter $\boldsymbol{\theta}$}
+    \Require{Small constant $\delta$, usually $10^{-6}$, used to stabilize
+    division by small numbers}
+    
+    \\
+    Initialize accumulation variables $\boldsymbol{r}=0$
+    
+    \While{stopping criterion not met}
+
+        Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+    
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        Accumulate squared gradient: $\boldsymbol{r} \gets
+        \rho\boldsymbol{r}$+$(1-\rho)\boldsymbol{g}\odot\boldsymbol{g}$.
+
+        Compute parameter update: 
+        $\Delta\boldsymbol{\theta}\gets -\frac{\epsilon}{\sqrt{\delta+\boldsymbol{r}}}
+        \odot\boldsymbol{g}$. ($\frac{1}{\sqrt{1+\boldsymbol{r}}}$ applied
+        element-wise)
+    
+        Apply update: $\boldsymbol{\theta}\gets
+        \boldsymbol\theta+\Delta\boldsymbol\theta$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+%%% Algorithm for ADAGrad %%%
+\begin{algorithm}
+\caption{The AdaGrad algorithm}\label{alg:AdaGrad}
+\begin{algorithmic}
+    \Require{Global learning rate $\epsilon$}
+    \Require{Initial parameter $\boldsymbol\theta$}
+    \Require{Small constant $\delta$, perhaps $10^{-7}$, for numerical
+    stability}
+    \\
+    Initialize accumulation variables $\boldsymbol{r}=0$
+    
+    \While{stopping criterion not met}
+
+        Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+    
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        Accumulate squared gradient: $\boldsymbol{r} \gets
+        \rho\boldsymbol{r}$+$(1-\rho)\boldsymbol{g}\odot\boldsymbol{g}$.
+
+        Compute parameter update: 
+        $\Delta\boldsymbol{\theta}\gets -\frac{\epsilon}{\delta+\sqrt{\boldsymbol{r}}}
+        \odot\boldsymbol{g}$. (Division and square root applied element-wise)
+    
+        Apply update: $\boldsymbol{\theta}\gets
+        \boldsymbol\theta+\Delta\boldsymbol\theta$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+%% Adam algorithm
+\begin{algorithm}
+\caption{The Adam algorithm}\label{alg:Adam}
+\begin{algorithmic}
+    \Require{Step size $\epsilon$ (Suggested default: 0.001)}
+    \Require{Exponential decay rates for momentum estimates, $\rho_1$ and
+    $\rho_2$ in $[0,1)$. (Suggested defaults: 0.9 and 0.999 respectively)}
+    \Require{Small constant $\delta$ used for numerical stabilization
+    (Suggested default: $10^{-8}$)}
+    \Require{Initial parameters $\boldsymbol\theta$}
+    \\
+    Initialize 1st and 2nd moment variables $\boldsymbol{s}=0$ and
+    $\boldsymbol{r}=0$
+
+    Initialize time step $t=0$
+
+    \While{stopping criterion not met}
+
+        Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+        
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        $t\gets t+1$
+
+        Update biased first moment estimate: $\boldsymbol{s}\gets
+        \rho_1\boldsymbol{s} + (1-\rho_1)\boldsymbol{g}$
+
+        Update biased second moment estimate: $\boldsymbol{r}\gets
+        \rho_2\boldsymbol{r} + (1-\rho_2)\boldsymbol{g}\odot\boldsymbol{g}$
+
+        Correct bias in first moment: $\hat{\boldsymbol{s}}\gets
+        \frac{1}{1-\rho_1^t}$
+
+        Correct bias in second moment: $\hat{\boldsymbol{r}}\gets
+        \frac{\boldsymbol{r}}{1-\rho_2^t}$
+
+        Compute parameter update: $\Delta\boldsymbol\theta =
+        -\epsilon\frac{\hat{\boldsymbol{s}}}{\sqrt{\hat{\boldsymbol{r}}}+\delta}$
+        (operations applied element-wise)
+
+        Apply update: $\boldsymbol\theta\gets \boldsymbol\theta +
+        \Delta\boldsymbol\theta$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
