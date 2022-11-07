@@ -133,7 +133,7 @@ when the step size is smaller than a given value.
 % DONE
 %% Algorithm for plain gradient decent
 \begin{algorithm}
-\caption{The plain gradient decent algorithm}\label{alg:plain_gd}
+\caption{The plain gradient decent algorithm}\label{algo:plain_gd}
 \begin{algorithmic}
     \Require{Learning rate $\epsilon$}
     \Require{Initial parameter $\boldsymbol\theta$}
@@ -150,7 +150,7 @@ when the step size is smaller than a given value.
 \end{algorithmic}
 \end{algorithm}
 
-In the algorithm for the plain gradient decent we see that there is an added
+In the algorithm for the plain gradient decent (\ref{algo:plain_gd}) we see that there is an added
 term $\epsilon$ (or often $\eta$) which is called the learning rate. This is implemented to regulate
 the step-size so that we don't easily overstep the minimum of the
 cost-function. This learning rate is not always constant and we then call it
@@ -167,13 +167,13 @@ decays with the number of iterations as can be seen in the function below.
 % DONE
 The problem with plain gradient decent is that when the size of the dataset
 gets big, so does the computation time. 
-Stochastic gradient decent fixes this by splitting the dataset into mini-batches and calculating the gradient only on this
+Stochastic gradient decent (\ref{algo:SGD}) fixes this by splitting the dataset into mini-batches and calculating the gradient only on this
 mini-batch of the dataset. When this mini-batch is chosen at random it should approximate
 the gradient, given that the dataset is smooth and well behaved.
 
 %% Algorithm for SGD
 \begin{algorithm}
-\caption{The SGD algorithm}\label{alg:SGD}
+\caption{The SGD algorithm}\label{algo:SGD}
 \begin{algorithmic}
     \Require{Learning rate schedule $\epsilon_1, \epsilon_2, ...$}
     \Require{Initial parameter $\boldsymbol{\theta}$}
@@ -214,11 +214,12 @@ This often lead to a behavior where our values for $\theta $ oscillates
 towards the global minima. % TODO: create figure  
 By introducing a momentum term our gradient method will better be able to move
 directly towards the global minima. This is due to information about the previous
-gradients in our update scheme.     
+gradients in our update scheme. This can be implemented by the algorithm
+(\ref{algo:SGD_momentum})  
 
 %% Algo SGD with momentum
 \begin{algorithm}
-\caption{The SGD with momentum algorithm}\label{alg:SGD_momentum}
+\caption{The SGD with momentum algorithm}\label{algo:SGD_momentum}
 \begin{algorithmic}
     \Require{Learning rate $\epsilon$, momentum parameter $\alpha$}
     \Require{Initial parameter $\boldsymbol\theta$, initial velocity
@@ -263,15 +264,16 @@ the landscape without paying the steep computational price of calculating or
 approximating Hessians. Recently, a number of methods have been introduced that
 accomplish this by tracking not only the gradient, but also the second moment
 of the gradient. These methods include AdaGrad, AdaDelta, Root Mean Squared
-Propagation (RMS-Prop), and ADAM. Here follows the algorithms for some of these
-methods.
+Propagation (RMS-Prop), and ADAM. In the following algorithms $\odot$ is the
+Hadamat product, that is an element-wise array operation.
 
-In the following algorithms $\odot$ is the Hadamat product, that is an
-element-wise array operation.
+In RMS prop (\ref{algo:rmsprop}), in addition to keeping a running average of the first moment of
+the gradient, we also keep track of the second moment.
 
 %%% Algorithm for RMSProp %%%
 \begin{algorithm}
 \caption{The RMSProp algorithm}\label{alg:RMSProp}
+    \label{algo:rmsprop}
 \begin{algorithmic}
     \Require{Global learning rate $\epsilon$, decay rate $\rho$}
     \Require{Initial parameter $\boldsymbol{\theta}$}
@@ -304,45 +306,22 @@ element-wise array operation.
     \EndWhile
 \end{algorithmic}
 \end{algorithm}
+ It is clear from this algorithm that the learning rate is reduced in directions
+ where the norm of the gradient is consistently large. This greatly speeds up
+ the convergence by allowing us to use a larger learning rate for flat
+ directions.
 
-
-%%% Algorithm for ADAGrad %%%
-\begin{algorithm}
-\caption{The AdaGrad algorithm}\label{alg:AdaGrad}
-\begin{algorithmic}
-    \Require{Global learning rate $\epsilon$}
-    \Require{Initial parameter $\boldsymbol\theta$}
-    \Require{Small constant $\delta$, perhaps $10^{-7}$, for numerical
-    stability}
-    \\
-    Initialize accumulation variables $\boldsymbol{r}=0$
-    
-    \While{stopping criterion not met}
-
-        Sample a minibatch of $m$ examples from the training set
-        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
-        targets $\boldsymbol{y}^{(i)}$
-    
-        Compute gradient: $\boldsymbol{g} \gets
-        \frac{1}{m}\nabla_{\boldsymbol\theta}
-        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
-        
-        Accumulate squared gradient: $\boldsymbol{r} \gets
-        \rho\boldsymbol{r}$+$(1-\rho)\boldsymbol{g}\odot\boldsymbol{g}$.
-
-        Compute parameter update: 
-        $\Delta\boldsymbol{\theta}\gets -\frac{\epsilon}{\delta+\sqrt{\boldsymbol{r}}}
-        \odot\boldsymbol{g}$. (Division and square root applied element-wise)
-    
-        Apply update: $\boldsymbol{\theta}\gets
-        \boldsymbol\theta+\Delta\boldsymbol\theta$
-    \EndWhile
-\end{algorithmic}
-\end{algorithm}
+A related algorithm is the ADAM optimizer (\ref{algo:adam}). In ADAM, we keep a running average
+of both the first and second moment of the gradient and use this information to
+adaptively change the learning rate for different parameters. The method
+isefficient when working with large problems involving lots data and/or
+parameters. It is a combination of the gradient descent with momentum algorithm
+and the RMSprop algorithm discussed above.
 
 %% Adam algorithm
 \begin{algorithm}
 \caption{The Adam algorithm}\label{alg:Adam}
+    \label{algo:adam}
 \begin{algorithmic}
     \Require{Step size $\epsilon$ (Suggested default: 0.001)}
     \Require{Exponential decay rates for momentum estimates, $\rho_1$ and
@@ -389,3 +368,46 @@ element-wise array operation.
     \EndWhile
 \end{algorithmic}
 \end{algorithm}
+
+The AdaGrad algorithm (\ref{algo:adagrad}) individually adapts
+the learning rate for each of the parameters by scaling them inversely
+proportional to the square root of the sum of all the historical squared values
+of the gradient. This makes the parameters with larger derivatives of the loss
+function get a bigger decrease in the learning rate than the parameters with
+smaller derivatives of the loss function.
+
+%%% Algorithm for ADAGrad %%%
+\begin{algorithm}
+\caption{The AdaGrad algorithm}\label{alg:AdaGrad}
+    \label{algo:adagrad}
+\begin{algorithmic}
+    \Require{Global learning rate $\epsilon$}
+    \Require{Initial parameter $\boldsymbol\theta$}
+    \Require{Small constant $\delta$, perhaps $10^{-7}$, for numerical
+    stability}
+    \\
+    Initialize accumulation variables $\boldsymbol{r}=0$
+    
+    \While{stopping criterion not met}
+
+        Sample a minibatch of $m$ examples from the training set
+        $\{\boldsymbol{x}^{(1)}, ..., \boldsymbol{x}^{(m)}\}$ with corresponding
+        targets $\boldsymbol{y}^{(i)}$
+    
+        Compute gradient: $\boldsymbol{g} \gets
+        \frac{1}{m}\nabla_{\boldsymbol\theta}
+        \sum_{i}L(f(\boldsymbol{x}^{(i)};\boldsymbol{\theta})\boldsymbol{y}^{(i)})$.
+        
+        Accumulate squared gradient: $\boldsymbol{r} \gets
+        \rho\boldsymbol{r}$+$(1-\rho)\boldsymbol{g}\odot\boldsymbol{g}$.
+
+        Compute parameter update: 
+        $\Delta\boldsymbol{\theta}\gets -\frac{\epsilon}{\delta+\sqrt{\boldsymbol{r}}}
+        \odot\boldsymbol{g}$. (Division and square root applied element-wise)
+    
+        Apply update: $\boldsymbol{\theta}\gets
+        \boldsymbol\theta+\Delta\boldsymbol\theta$
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
