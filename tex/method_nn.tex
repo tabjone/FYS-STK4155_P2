@@ -3,43 +3,136 @@
 
 
 \subsection{Neural network}
-{
-    %General info of neural network
-    % About artificial neurons ect.
-    % We use feed-forward neural network, spesifically multi-layer perception,
-    % or dense neural network (every neuron in layer connected with every
-    % neuron in next and previous)
+A neural network is a computer system that works kind of like the brain. It is
+composed of a set of interconnected processing nodes, or neurons, that
+activates using weight and biases. This network can be dense, meaning that all
+neurons in a layer is connected to all neurons in the previous and next layer.
+The reason they are called neuron is that they mimics the behavior of a
+biological neuron. We will look specifically at a feed-forward multi-layer
+perception (MPL) neural network, often called a dense neural network. 
 
 
-}
 \subsubsection{Initialization}
 % Weights and biases
 
-\subsubsection{Feed-forward}
-% Maybe activation functions before this since we use them here.
+One of the most important aspects of training a neural network is the
+initialization of the weights and biases. This process sets the starting point
+for the network and can have a significant impact on the performance of the
+model. There are a number of different methods that can be used to initialize
+the weights and biases, and the choice of method can be critical for the
+success of the training process. Some of the more common methods include random
+initialization, Xavier initialization, and He initialization.
+\\
+We will use random initialization, meaning we will set the weights using a
+random distribution. And the biases we will set to $0.001$. It is common to
+initialize the biases as a zero, or a small number to assure that the network
+don't die. We also need to be careful to not set the weights to high as this
+might cause the network to explode. 
 
-\subsubsection{Back propagation}
-%Delta thing error
+
+\subsubsection{Feed-forward}
+Feed-forward means that the processing of information in the network only flows
+trough the nodes in one direction, from the input layer to the output layer.
+\\
+To implement this we let the first layer of the network get the input. Then we
+use an activation function on that layer, send that to the next layer,
+activation, ..., and so on until we reach the output layer. Mathematically
+\begin{equation*}
+    a_L = \sigma((z_L))=\sigma{(a_{L-1})=\sigma{(\sigma(z_{L-1}))}}=....
+\end{equation*}
+until we reach the first layer, and the input. Next we will talk about these activation
+functions.
 
 \subsubsection{Activation functions}
 %
-\textbf{Sigmoid}
+A property that characterizes a neural network, other than its connectivity, is
+the choice of activation function(s). 
+The following restrictions are imposed on an activation function for a FFNN to
+fulfill the universal approximation theorem.
+- Non-constant
+- Bounded
+- Monotonically-increasing
+- Continuous
+
+The second requirement excludes all linear functions. Furthermore, in a MLP
+with only linear activation functions, each layer simply performs a linear
+transformation of its inputs.
+
+Regardless of the number of layers, the output of the NN will be nothing but a
+linear function of the inputs. Thus we need to introduce some kind of
+non-linearity to the NN to be able to fit non-linear functions. This is
+typically done with the Sigmoid or hyperbolic tangent function.
+\\~\\
+\textbf{Sigmoid and Hyperbolic tangent}:
+The sigmoid activation function
+\begin{equation*}
+    \sigma(z) = \frac{1}{1+e^{-z}}
+\end{equation*}
+is an ideal activation function for a hidden layer given it's easy derivative
+
+\begin{equation*}
+    \sigma'(z) = (1-\sigma(z))z.
+\end{equation*}
+This is a widely used activation function, but one must be careful of overflow
+due to the exponential term. The hyperbolic tangent activation function
+\begin{equation*}
+    \sigma(z) = tanh(z),
+\end{equation*}
+with the derivative
+\begin{equation*}
+    \sigma'(z) = sech^2(z)
+\end{equation*}
+behaves much like the sigmoid except is has an output from negative one to plus
+one, compared to the sigmoid which has an output from zero to one. Both of
+these functions have a problem in many-layer networks, and that is the
+vanishing gradients problem. Therefore in many-layer networks other functions
+are ideal, such as ReLU.
+\\~\\
+\textbf{ReLU}:
+The rectified linear unit (ReLU) is piecewise linear and will output the input
+directly if it is positive and will output zero if not. It is as follows
+\begin{equation*}
+    \sigma(z) = argmax(0, z),
+\end{equation*}
+and has a split derivative, where $\sigma'(z)=1$ if $z\geq 0$ or else it is zero.
+This is also an ideal activation function for a hidden layer and does much
+better than sigmoid or hyperbolic tangent at many-layer networks. It is the
+default activation function for MLPs and convolutional neural networks (CNN).
+And by solving the vanishing gradients problem it makes the network learn
+faster and preform better.
+\\~\\
 %
-\textbf{ReLU}
+\textbf{Leaky ReLU}:
+The leaky ReLU activation function has a small slope for negative values
+instead of zero. So that $\sigma(x)=ax$ when $x<0$ and this slope is determined
+before training. In other words it is not a hyperparameter. Other than that it
+is exactly as ReLU.
+\\~\\
 %
-\textbf{Leaky ReLU}
-%
-\textbf{Softmax}
-%
-\textbf{Hyperbolic tangent}
-%
+\textbf{Softmax}:
+The Softmax activation function is a little different than the other functions
+in that it produces a normalized probability distribution over the predicted
+output classes and it is therefore often used as the activation for the output
+layer of the network.
+\begin{equation*}
+    \sigma(\vec{z})_i=\frac{e^{z_i}}{\Sigma_{j=1}^{K}e^{z_j}}.
+\end{equation*}
+
+This inputs a vector $\vec{z}$ and outputs a normalized probability
+distribution. The probability distribution is handled in the numerator and the
+normalization in the denominator. It is also often useful to re-define
+\begin{equation*}
+    z_i \gets z_i - argmax(\vec{z_i})
+\end{equation*}
+as to prevent overflow in the exponential. This will not affect the
+probabilities. 
+
 \subsubsection{Training and evaluation}
-% Idk
 
-
-
-
-
-
+%Back-propagation is a method of training a neural network by adjusting the
+%weights and biases in a way that minimizes the error in the predictions made by
+%the network. This method is used in conjunction with the gradient descent
+%algorithm. The back-propagation algorithm works by propagating the error back
+%through the network and adjusting the weights and biases accordingly.
 
 %%% Thing about delta (error) in the bottom of week40
