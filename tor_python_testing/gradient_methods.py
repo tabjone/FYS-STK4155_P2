@@ -116,44 +116,43 @@ Task:
 -Add momentum to the plain GD code and compare convergence with a fixed learning rate (you may need to tune the learning rate).
 """
 
+
+import copy
+
+
 if __name__ == '__main__':
 
     # the number of datapoints
     n = 100
-    x = 2*np.random.rand(n,1)
-    y = 4+3*x+np.random.randn(n,1)
 
-    X = np.c_[np.ones((n,1)), x]
+    # y as second order polynomial
+    x = np.linspace(0, 5, n).reshape(-1,1)
+    a0 = 1; a1 = 4; a2 = 1
+    y = a0 + a1*x + a2*x**2
+    X = np.c_[np.ones((n,1)), x, x**2]
+    X_ = copy.deepcopy(X)
+    y_ = copy.deepcopy(y)
+
+    #y as random numbers
+    #x = 2*np.random.rand(n,1)
+    #y = 4+3*x+np.random.randn(n,1)
+
+    #X = np.c_[np.ones((n,1)), x]
     
     #Ridge parameter lambda
     #lmbda  = 0.001
-
-    gd_method = GradientDecent()
-    gd_method.solve(X, y, initial_solution=np.random.randn(2,1), Niterations=1000, epsilon=0.001)
     
-    y_gd_plain = gd_method.get_solution(X)
-
-    plt.scatter(x,y, color='red',label='data')
-    plt.plot(x, y_gd_plain, label='plain GD, no mentum, OLS')
-
+    initial_solution = (np.random.randn(X.shape[1],1))
+    
+    gd_plain = GradientDecent()
+    gd_plain.solve(X, y, initial_solution=initial_solution, Niterations=1000, eta=0.001)
+    
     learning_schedule = lambda t : learning_schedule_decay(t, t0=5, t1=50) 
+    sgd= StochasticGradientDecent()
+    sgd.solve(X_, y_, initial_solution=initial_solution, Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
 
-    gd_stochastic = StochasticGradientDecent()
-    gd_stochastic.solve(X, y, initial_solution=np.random.randn(2,1), Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
     
-    y_sgd = gd_stochastic.get_solution(X)
-
-    plt.plot(x, y_sgd, label='sgd, no momentum, OLS')
-    
-    gd_ada = SGD_AdaGrad()
-    gd_ada.solve(X, y, initial_solution=np.random.randn(2,1), Nepochs=400, size_minibatch=20, eta=0.01)
-    
-    y_ada = gd_ada.get_solution(X)
-    plt.plot(x, y_ada, label='AdaGrad sgd, no momentum, ols')
-
-    plt.legend()
+    plt.plot(x, y, label='data')
+    plt.plot(x, gd_plain.get_solution(X), label='gd plain')
     plt.show()
-    
-    print('MSE GD: {}'.format(MSE(y_gd_plain, y)))
-    print('MSE SGD: {}'.format(MSE(y_sgd, y)))
-    print('MSE SGD ADAGRAD: {}'.format(MSE(y_ada, y)))
+
