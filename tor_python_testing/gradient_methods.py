@@ -42,9 +42,9 @@ class GradientDecent:
             self.iterate(X, y, eta)
             iter += 1
             
-    def get_solution(self):
+    def get_solution(self, X):
         """gets predicted solution """
-        return self.X @ self.theta
+        return X @ self.theta
 
 
 class StochasticGradientDecent(GradientDecent):
@@ -52,6 +52,8 @@ class StochasticGradientDecent(GradientDecent):
         self.theta = initial_solution
         self.X = X
         self.y = y
+
+        self.r = 0 #Initialize accumulation variables
 
         M = size_minibatch   #size of each minibatch
         m = int(n/M) #number of minibatches
@@ -73,8 +75,10 @@ class StochasticGradientDecent(GradientDecent):
                 self.iterate(xi, yi, eta)
             epoch += 1
 
-#THIS CAN BE COMBINED IN SOME WAY WITH REGULAR SGD, ADD TWO ITERATE METHODS TO REGULAR GD CLASS, ITERATE_ADAGRAD AND ITERATE
-class SGD_AdaGrad(GradientDecent):
+
+
+class SGD_AdaGrad(StochasticGradientDecent):
+    """This needs to be run with a fixed learning rate, the point of AdaGrad is to tune learning rate in iterations"""
     def iterate(self, X, y, eta):
         delta = 1e-7
         """eta is learning rate"""
@@ -86,25 +90,6 @@ class SGD_AdaGrad(GradientDecent):
         dtheta = - eta /(delta + np.sqrt(self.r)) * self.g
         #apply update
         self.theta += dtheta
-
-    def solve(self, X, y, initial_solution, Nepochs, size_minibatch, eta=0.01, epsilon=0.001):
-        self.theta = initial_solution
-        self.X = X
-        self.y = y
-
-        M = size_minibatch   #size of each minibatch
-        m = int(n/M) #number of minibatches
-        
-        self.r = 0 #Initialize accumulation variables
-        epoch = 0
-        eta = learning_schedule(0)
-        while epoch <= Nepochs and abs(np.linalg.norm(eta*self.g)) >= epsilon:
-            for i in range(m):
-                random_index = M*np.random.randint(m)
-                xi = X[random_index:random_index+M]
-                yi = y[random_index:random_index+M]
-                self.iterate(xi, yi, eta)
-            epoch += 1
 
 
 def learning_schedule_decay(t, t0, t1):
@@ -129,13 +114,21 @@ import copy
 if __name__ == '__main__':
 
     # the number of datapoints
-    n = 100
+    n = 40
 
     # y as second order polynomial
     x = np.linspace(0, 5, n).reshape(-1,1)
     a0 = 1; a1 = 4; a2 = 1
     y = a0 + a1*x + a2*x**2
     X = np.c_[np.ones((n,1)), x, x**2]
+    
+    X1 = copy.deepcopy(X)
+    y1 = copy.deepcopy(y)
+
+    X2 = copy.deepcopy(X)
+    y2 = copy.deepcopy(y)
+
+
     #X_ = copy.deepcopy(X)
     #y_ = copy.deepcopy(y)
 
@@ -150,21 +143,22 @@ if __name__ == '__main__':
     
     initial_solution = (np.random.randn(X.shape[1],1))
     
-    #### HER SETTER JEG OPP ETT OBJEKT TIL KLASSEN GD OG LØSER
+    #### CREATING INSTANCE OF GradientDecent class. Solving this 
     gd_plain = GradientDecent()
-    gd_plain.solve(X, y, initial_solution=initial_solution, Niterations=1000, eta=0.001)
-    
-    A = gd_plain.get_solution()
+    gd_plain.solve(X1, y1, initial_solution=initial_solution, Niterations=1000, eta=0.001)
+    #getting solution from the instance and naming it A
+    A = gd_plain.get_solution(X1)
 
-    #print(gd_plain.get_solution())
 
-    #### HER SETTER JEG OPP ETT OBJEKT TIL KLASSEN SGD OG LØSER
+    #### CREATING INSTANCE OF ANOTHER CLASS StochasticGradientDecent and solving for this instance (this class inherits from GradientDecent)
     learning_schedule = lambda t : learning_schedule_decay(t, t0=5, t1=50) 
     sgd= StochasticGradientDecent()
-    sgd.solve(X, y, initial_solution=initial_solution, Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
+    sgd.solve(X2, y2, initial_solution=initial_solution, Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
     
-    B = gd_plain.get_solution()
-    print(A == B)
+    #Now im getting the solution from the instance of the GradientDecent class again.
+    B = gd_plain.get_solution(X1)
+
+    print(A == B) #BUT THEY ARE NOT EQUAL. WHY? Nothing in this instance has changed between A and B!
     
 
     #plt.plot(x, y, label='data')
