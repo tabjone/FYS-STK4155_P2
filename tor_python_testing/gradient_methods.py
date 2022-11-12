@@ -34,20 +34,24 @@ class GradientDecent:
     def solve(self, X, y, initial_solution, Niterations, eta=0.01, epsilon=0.001):
         """Niterations is max number of iters, eta is learning rate, epsilon is stopping criterion"""
         self.theta = initial_solution
+        self.X = X
+        self.y = y
 
         iter = 0
         while iter <= Niterations and abs(np.linalg.norm(eta*self.g)) >= epsilon:
             self.iterate(X, y, eta)
             iter += 1
             
-    def get_solution(self, X):
+    def get_solution(self):
         """gets predicted solution """
-        return X @ self.theta
+        return self.X @ self.theta
 
 
 class StochasticGradientDecent(GradientDecent):
     def solve(self, X, y, initial_solution, Nepochs, size_minibatch, learning_schedule=None, eta=None, epsilon=0.001):
         self.theta = initial_solution
+        self.X = X
+        self.y = y
 
         M = size_minibatch   #size of each minibatch
         m = int(n/M) #number of minibatches
@@ -85,6 +89,8 @@ class SGD_AdaGrad(GradientDecent):
 
     def solve(self, X, y, initial_solution, Nepochs, size_minibatch, eta=0.01, epsilon=0.001):
         self.theta = initial_solution
+        self.X = X
+        self.y = y
 
         M = size_minibatch   #size of each minibatch
         m = int(n/M) #number of minibatches
@@ -130,8 +136,8 @@ if __name__ == '__main__':
     a0 = 1; a1 = 4; a2 = 1
     y = a0 + a1*x + a2*x**2
     X = np.c_[np.ones((n,1)), x, x**2]
-    X_ = copy.deepcopy(X)
-    y_ = copy.deepcopy(y)
+    #X_ = copy.deepcopy(X)
+    #y_ = copy.deepcopy(y)
 
     #y as random numbers
     #x = 2*np.random.rand(n,1)
@@ -144,15 +150,24 @@ if __name__ == '__main__':
     
     initial_solution = (np.random.randn(X.shape[1],1))
     
+    #### HER SETTER JEG OPP ETT OBJEKT TIL KLASSEN GD OG LØSER
     gd_plain = GradientDecent()
     gd_plain.solve(X, y, initial_solution=initial_solution, Niterations=1000, eta=0.001)
     
+    A = gd_plain.get_solution()
+
+    #print(gd_plain.get_solution())
+
+    #### HER SETTER JEG OPP ETT OBJEKT TIL KLASSEN SGD OG LØSER
     learning_schedule = lambda t : learning_schedule_decay(t, t0=5, t1=50) 
     sgd= StochasticGradientDecent()
-    sgd.solve(X_, y_, initial_solution=initial_solution, Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
-
+    sgd.solve(X, y, initial_solution=initial_solution, Nepochs=200, size_minibatch=20, learning_schedule=learning_schedule)
     
-    plt.plot(x, y, label='data')
-    plt.plot(x, gd_plain.get_solution(X), label='gd plain')
-    plt.show()
+    B = gd_plain.get_solution()
+    print(A == B)
+    
+
+    #plt.plot(x, y, label='data')
+    #plt.plot(x, gd_plain.get_solution, label='gd plain')
+    #plt.show()
 
