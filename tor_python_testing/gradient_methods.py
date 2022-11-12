@@ -69,6 +69,37 @@ class StochasticGradientDecent(GradientDecent):
                 self.iterate(xi, yi, eta)
             epoch += 1
 
+#THIS CAN BE COMBINED IN SOME WAY WITH REGULAR SGD, ADD TWO ITERATE METHODS TO REGULAR GD CLASS, ITERATE_ADAGRAD AND ITERATE
+class SGD_AdaGrad(GradientDecent):
+    def iterate(self, X, y, eta):
+        delta = 1e-7
+        """eta is learning rate"""
+        #calculate gradient
+        self.g = self.compute_gradient(X, y, self.theta)
+        #Accumulate squared gradient
+        self.r += self.g * self.g 
+        #Compute parameter update
+        dtheta = - eta /(delta + np.sqrt(self.r)) * self.g
+        #apply update
+        self.theta += dtheta
+
+    def solve(self, X, y, initial_solution, Nepochs, size_minibatch, eta=0.01, epsilon=0.001):
+        self.theta = initial_solution
+
+        M = size_minibatch   #size of each minibatch
+        m = int(n/M) #number of minibatches
+        
+        self.r = 0 #Initialize accumulation variables
+        epoch = 0
+        eta = learning_schedule(0)
+        while epoch <= Nepochs and abs(np.linalg.norm(eta*self.g)) >= epsilon:
+            for i in range(m):
+                random_index = M*np.random.randint(m)
+                xi = X[random_index:random_index+M]
+                yi = y[random_index:random_index+M]
+                self.iterate(xi, yi, eta)
+            epoch += 1
+
 
 def learning_schedule_decay(t, t0, t1):
     return t0/(t+t1)
@@ -113,9 +144,16 @@ if __name__ == '__main__':
     y_sgd = gd_stochastic.get_solution(X)
 
     plt.plot(x, y_sgd, label='sgd, no momentum, OLS')
-     
+    
+    gd_ada = SGD_AdaGrad()
+    gd_ada.solve(X, y, initial_solution=np.random.randn(2,1), Nepochs=400, size_minibatch=20, eta=0.01)
+    
+    y_ada = gd_ada.get_solution(X)
+    plt.plot(x, y_ada, label='AdaGrad sgd, no momentum, ols')
+
     plt.legend()
     plt.show()
     
     print('MSE GD: {}'.format(MSE(y_gd_plain, y)))
-    print('MSD SGD: {}'.format(MSE(y_sgd, y)))
+    print('MSE SGD: {}'.format(MSE(y_sgd, y)))
+    print('MSE SGD ADAGRAD: {}'.format(MSE(y_ada, y)))
