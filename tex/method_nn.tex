@@ -66,6 +66,7 @@ typically done with the Sigmoid or hyperbolic tangent function.
 \textbf{Sigmoid and Hyperbolic tangent}:
 The sigmoid activation function
 \begin{equation*}
+    \label{eq:sigmoid} 
     \sigma(z) = \frac{1}{1+e^{-z}}
 \end{equation*}
 is an ideal activation function for a hidden layer given it's easy derivative
@@ -169,12 +170,110 @@ of the image. For example, the output might be “cat”, “dog”, “bird”,
 
 We have chosen to train our network using the Wisconsin 
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load\_breast\_cancer.html?fbclid=IwAR0RNzOImikVXi41ecb14u\_qvUDybyIII43e9ySk0GEjyYWyPzybmmHeQWs}{\underline{breast
-cancer dataset}} by sklearn.
+cancer dataset}} by learn.
 
 There are 569 samples in the Wisconsin breast cancer data set and it has two
 classes, malignant and benign. Each of the samples has 30 features such as the
-patients’ age, the stage of their cancer, size of the tumor, ect. This dataset
+patients’ age, the stage of their cancer, size of the tumor, etc. This dataset
 is very useful in neural network classification problems because it is a well-known
 data set that has been used extensively in research. Additionally, the data set
 is small enough that it can be used to train a neural network without requiring
 much computational power.
+
+
+% Methods: 
+% Normalizing data 
+% splitting of data 
+
+
+% XXX: Scaling after split
+
+All code was implemented and analyzed in Python. Thus function names refers to
+specify python packages and modules.  
+
+Our cancer data was split into training and test data, with a test size of
+20\%. 
+Scikit-learn's \verb|train_test_split| method was used for this purpose. 
+
+
+Before attempting to train the network the data was scaled, since each
+feature lives on different Scales. All 30 features was scaled by subtracting
+the mean and dividing by the standardeviation, with scikit-learns
+\verb|StandardScalar| object. 
+
+In order to keep the results consistent between runs, a seed value of 5 was set
+with the nappy's random module. 
+
+
+% Output layers Cost score
+Since our data only consist if two classes, malignant and benign we will use
+the binary Cross Entropy as a cost function. Where our targets is a column vector
+with 0 and 1 (benign and malignant) % FIXME: or opposite
+
+
+
+% Activation output layer
+The Sigmoid function (see \eqref{eq:sigmoid}) was used as our activation
+function in the output Layer.
+We can interpret the sigmoid function as probability function. 
+We then define the output as the probability that our prediction belongs to
+class 0: 
+\begin{equation*}
+    P(y = 0 | z^L, \theta ) = \sigma (z^L)
+\end{equation*}
+, where $\theta $ is the weights and the bias and $z^L$  is the input to the
+activation function. $\sigma $ is the sigmoid function. 
+For our binary classification problem it follows that: 
+\begin{equation*}
+    P(y = 1 | z^L, \theta ) = 1 - \sigma (z^L)
+\end{equation*}
+
+
+% Table with params
+In order to find the optimal values for hyper-parameteres, multiple runs with
+different combination of hyper-parameter was used. All runs with it's specific
+hyper-parameters is listed in table. The different alorithms %XXX ref 
+
+
+% FIXME: need reference the different parameters
+\begin{table}[H]
+    \centering
+    \caption{Different runs used to find the optimal parameters}  
+    \label{tab:runs_classification_cancer} 
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+
+        Parameter & Run 1 & Run 2 & Run 3 \\
+        \hline
+        eta & 0.001 &  \\
+        \hline
+        depth & 1   \\
+        \hline
+        width & 10  \\
+        \hline
+        n output nodes & 1 \\
+        \hline
+        cost score & cross entropy \\
+        \hline
+        activation hidden & sigmoid \\
+        \hline
+        gamma & 0.9 \\
+        \hline
+        lambd & 0.0 \\
+        \hline
+        tuning method & none \\
+        \hline
+        n minibatches & 1, 5, 10, 15, 20 \\
+        \hline
+        epochs & 400  \\
+        \hline
+         
+    \end{tabular} 
+\end{table}
+
+
+
+
+
+
+% 
