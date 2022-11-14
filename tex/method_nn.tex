@@ -197,24 +197,24 @@ Scikit-learn's \verb|train_test_split| method was used for this purpose.
 
 
 Before attempting to train the network the data was scaled, since each
-feature lives on different Scales. All 30 features was scaled by subtracting
+feature lives on different scales. All 30 features was scaled by subtracting
 the mean and dividing by the standard deviation, with scikit-learns
 \verb|StandardScaler| object. 
 
 In order to keep the results consistent between runs, a seed value of 5 was set
-with the nappy's random module. 
+with the numpy's random module. 
 
 
 % Output layers Cost score
 Since our data only consist if two classes, malignant and benign we will use
 the binary Cross Entropy as a cost function. Where our targets is a column vector
-with 0 and 1 (benign and malignant) % FIXME: or opposite
+with 0 and 1 (benign and malignant). % FIXME: or opposite
 
 
 
 % Activation output layer
 The Sigmoid function (see \eqref{eq:sigmoid}) was used as our activation
-function in the output Layer.
+function in the output layer.
 We can interpret the sigmoid function as probability function. 
 We then define the output as the probability that our prediction belongs to
 class 0: 
@@ -225,7 +225,7 @@ where $\theta $ is the weights and the bias, and $z^L$  is the input to the
 activation function. $\sigma $ is the sigmoid function. 
 For our binary classification problem it follows that: 
 \begin{equation*}
-    P(y = 1 | z^L, \theta ) = 1 - \sigma (z^L)
+    P(y = 1 | z^L, \theta ) = 1 - \sigma (z^L).
 \end{equation*}
 
 
@@ -327,7 +327,7 @@ where p is the number of predictors. Our problem is then to fit the
 coefficients $\beta _i$ for each feature $x_i$ such that our cost function is
 minimized.  
 
-Our developed FINN code can easy be reconfigured to a logistic regression
+Our developed FNN code can easy be reconfigured to a logistic regression
 solver as discussed below.
 
 We will again use the Wisconsin Breast Cancer data for our logistic regression
