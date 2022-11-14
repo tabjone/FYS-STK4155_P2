@@ -198,8 +198,8 @@ Scikit-learn's \verb|train_test_split| method was used for this purpose.
 
 Before attempting to train the network the data was scaled, since each
 feature lives on different Scales. All 30 features was scaled by subtracting
-the mean and dividing by the standardeviation, with scikit-learns
-\verb|StandardScalar| object. 
+the mean and dividing by the standard deviation, with scikit-learns
+\verb|StandardScaler| object. 
 
 In order to keep the results consistent between runs, a seed value of 5 was set
 with the nappy's random module. 
@@ -219,9 +219,9 @@ We can interpret the sigmoid function as probability function.
 We then define the output as the probability that our prediction belongs to
 class 0: 
 \begin{equation*}
-    P(y = 0 | z^L, \theta ) = \sigma (z^L)
+    P(y = 0 | z^L, \theta ) = \sigma (z^L),
 \end{equation*}
-, where $\theta $ is the weights and the bias and $z^L$  is the input to the
+where $\theta $ is the weights and the bias, and $z^L$  is the input to the
 activation function. $\sigma $ is the sigmoid function. 
 For our binary classification problem it follows that: 
 \begin{equation*}
