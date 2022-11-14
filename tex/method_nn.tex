@@ -158,7 +158,7 @@ To evaluate the performance of the network we will look at the square of the
 difference between the wanted outcome, or target, $t$ and the output of the
 network. We call this the accuracy of the network.
 
-\subsection{Classification problems}
+\subsection{Classification problems} \label{sec:method_classification} 
 Classes in neural networks are defined by the output of the network. For
 example, if the output of the network is a single class, then the network is
 said to be a single-class network. If the output of the network is two classes,
@@ -229,10 +229,13 @@ For our binary classification problem it follows that:
 \end{equation*}
 
 
+% TODO: accuracy score
+
 % Table with params
 In order to find the optimal values for hyper-parameteres, multiple runs with
 different combination of hyper-parameter was used. All runs with it's specific
 hyper-parameters is listed in table. The different alorithms %XXX ref 
+
 
 
 % FIXME: need reference the different parameters
@@ -263,13 +266,54 @@ hyper-parameters is listed in table. The different alorithms %XXX ref
         \hline
         tuning method & none \\
         \hline
-        n minibatches & 1, 5, 10, 15, 20 \\
+        n mini batches & 1, 5, 10, 15, 20 \\
         \hline
         epochs & 400  \\
         \hline
          
     \end{tabular} 
 \end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Logistic regression}
+
+Logistic regression is a statistical method for classifying data into two
+groups. It is often used in binary classification problems.
+
+Logistic regression works by using a logistic function to map the data points
+onto a curve. The logistic function is a sigmoid function (equation
+\ref{eq:sigmoid}), which takes any real
+valued number and maps it onto a value between 0 and 1. 
+Values above 0.5 is assigned to class 1, and below 0.5 to class 0. 
+
+The logistic function can be used for any number of predictors. For multiple
+predictors the function takes the form: 
+\begin{equation*}
+    \label{eq:log_reg} 
+    \sigma (z) = \frac{1}{1+e^{-z}} =\frac{1}{1+e^{-(\beta_0 + \beta _1 x_1+ \beta_2 +x_2 + \ldots +
+    \beta _p x_p)}}, 
+\end{equation*}
+where p is the number of predictors. Our problem is then to fit the
+coefficients $\beta _i$ for each feature $x_i$ such that our cost function is
+minimized.  
+
+Our developed FINN code can easy be reconfigured to a logistic regression
+solver as discussed below.
+
+We will again use the Wisconsin Breast Cancer data for our logistic regression
+problem. The full dataset was used with all 30 features. That data was split
+and standardized with the same random seed value as in section
+\ref{sec:method_classification}. 
+
+All hidden layers was the removed from the neural network. Thus, our neural
+network consisted of an input layer outputting 30 feature vectors, and an
+output layer of one node and the sigmoid function as the activation function.
+Our feed forward pass in the network, therefore takes the form as in equation
+\ref{eq:log_reg}, where $\beta _i$ is the weights into the output layer. 
+Again, we used cross entropy as our cost function.  
+
 
 
 
