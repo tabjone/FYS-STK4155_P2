@@ -248,27 +248,23 @@ hyper-parameters is listed in table. The different alorithms %XXX ref
 
         Parameter & Run 1 & Run 2 & Run 3 \\
         \hline
-        eta & 0.001 &  \\
+        eta & 0.001 & 0.00001, 0.0001, 0.001, 0.01, 0.1\\
         \hline
-        depth & 1   \\
+        depth & 1  & 1   \\
         \hline
-        width & 10  \\
+        width & 10   & 10\\
         \hline
-        n output nodes & 1 \\
+        activation hidden & sigmoid & sigmoid\\
         \hline
-        cost score & cross entropy \\
+        gamma & 0.9 & 0.9\\
         \hline
-        activation hidden & sigmoid \\
+        lambd & 0.0  & 0, 0.0001, 0.001, 0.01, 0.1 \\
         \hline
-        gamma & 0.9 \\
+        tuning method & none & none \\
         \hline
-        lambd & 0.0 \\
+        n mini batches & 1, 5, 10, 15, 20  & 20\\
         \hline
-        tuning method & none \\
-        \hline
-        n mini batches & 1, 5, 10, 15, 20 \\
-        \hline
-        epochs & 400  \\
+        epochs & 400  & 200\\
         \hline
          
     \end{tabular} 
