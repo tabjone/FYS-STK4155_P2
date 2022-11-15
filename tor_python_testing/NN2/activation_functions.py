@@ -3,10 +3,10 @@ import numpy as np
 
 class ActivationReLU:
     def forward(self, inputs):
-        return np.maximum(0, inputs)
+        self.output = np.maximum(0, inputs)
 
     def derivative(self, inputs):
-        return (inputs > 0) * 1
+        self.derivative_output = (inputs > 0) * 1
 
 
 class ActivationSoftmax:
@@ -22,10 +22,7 @@ class ActivationSoftmax:
 
 class ActivationSigmoid:
     def forward(self, inputs):
-        return (inputs < 0) * np.exp(inputs)/(1+np.exp(inputs)) + (inputs >= 0) * 1/(1+np.exp(-inputs))
-        #return 1/(1+np.exp(-inputs))
+        self.output = (inputs < 0) * np.exp(inputs)/(1+np.exp(inputs)) + (inputs >= 0) * 1/(1+np.exp(-inputs))
     
     def derivative(self, inputs):
-        return (1-self.forward(inputs))*inputs
-
-
+        self.derivative_output = (1-self.output)*inputs
