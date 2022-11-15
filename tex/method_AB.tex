@@ -1,0 +1,27 @@
+\subsection{Gradient descent polynomial fitting}
+We will use gradient descent implemented in Python to fit a second order polynomial 
+\begin{equation}
+f(x)=x^{2}+1
+\label{eq:polynomial_A}
+\end{equation}
+with \(100\) linearly spaced points \(x\epsilon [-1, 1]\). The data are then 
+split in to training and test sets with \(80\%\) and \(20\%\) randomly selected 
+data respectively. 
+
+Our prediction is the matrix product of the second order polynomial design matrix 
+\(\bf{X}\) and corresponding coefficient column vector \(\bf{\theta }\)
+\begin{equation}
+	\bf{y _{pred}} = \bf{X}\bf{\theta}.
+	\label{eq:y_pred}
+\end{equation}
+\(\bf{\theta }\) were initialized with values sampled from a normal distibution with 
+mean \(0\) and variance \(1\).   
+The gradients were calculated with respect to 
+\(\bf{\theta }\) by \verb|autograd's| \verb|grad| function on 
+the Ordinary Least Squares or Ridge (if L2 regularization parameter \(\lambda \neq 0 \) ) cost function. 
+To find the best prediction, we analyzed the mean squared error resulting from different 
+parameters described in table \ref{tab:parameters_A}.
+
+
+
+\subsection{Neural Network regression}
