@@ -44,10 +44,9 @@ to number of mini-batches.}
 %%%%%%%%%%%%%%% Run 2 %%%%%%%%%%%%%%%
 % Lambda vs eta
 
-In figure % XXX: ref
 
 In figure \ref{fig:d_heatmap_train_eta_vs_lambda} and
-\ref{fig:d_heatmap_train_eta_vs_lambda} is accuracy score for run 2 plotted for
+\ref{fig:d_heatmap_test_eta_vs_lambda} is accuracy score for run 2 plotted for
 different values of regularization parameter and learning rate for the training
 and test data respectively. For our test data the best Accuracy of 0.9825 was
 gotten with $\lambda = 10^{-4}$, $\eta = 0.1$ and $\lambda = 0.01$, $\eta =
@@ -85,7 +84,7 @@ parameters affect the score with respect to epochs.
     \includegraphics[width=\textwidth]{Figures/PartD/d_heatmap_test_eta_vs_lambda}
     \caption{Heatmap of accuracy score for test dta after 200 epochs with
     respect to different learning rates (Eta) and differn L2-regularization
-    parameters (Lambda). Specific parameters used in run 2 is listed in table
+    parameters (Lambd). Specific parameters used in run 2 is listed in table
     \ref{tab:runs_classification_cancer}       }  
     \label{fig:d_heatmap_test_eta_vs_lambda}  
 \end{figure}
@@ -202,10 +201,45 @@ in the label}
 
 %%%%%%%%%%%%%%% Run 6 %%%%%%%%%%%%%%%
 % Combine best parameters
+In figure \ref{}   
+
+In run 6 our model reached an accuracy of 0.9825 after 165 epochs. The result was stable
+with increasing number of iterations. We tried to select the optimal values for
+hyper-parameters on the basis of the previous experimentation. However, we did
+use the sigmoid function on the hidden layers and not RELU or Leaky RELU, as
+they performed worse. The parameters used in run 6 is listed in table
+\ref{tab:runs_classification_cancer2}. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartD/}
+\end{figure}
 
 
 
 
+After all these calculations there is only a few obvious choices for
+hyper-parameters. A larger number of mini-batches did increase the accuracy,
+convergence rate and reduces CPU cycles. We did not observe any over-fitting in 
+our model, but a larger value for lambda did increase the convergence rate.
+There was no clear trend in accuracy score with respect to network
+architecture, but a depth of 2 and width of 5 gave the best prediction on the
+test data. Tuning methods such as Adam and rms prop, significantly improved the
+convergence rate. Adagrad and manual tuning was inferior to rms prop and adm,
+but significantly improved when momentum was added. Adagrad then performed the
+best on the test data. 
+
+
+%  ____            _          
+% |  _ \ __ _ _ __| |_    ___ 
+% | |_) / _` | '__| __|  / _ \
+% |  __/ (_| | |  | |_  |  __/
+% |_|   \__,_|_|   \__|  \___|
+                            
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Logistic regression}
 
 
 
