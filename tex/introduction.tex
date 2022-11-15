@@ -1,4 +1,41 @@
 \section{Introduction}
-We will use GD for gradient decent. SGD for stocastic gradient decent and MGD for momentum gradient decent
 
-Reason for using gradient decent is: computationally faster.
+%Done with structure
+
+\begin{comment}
+    In this report we will look at ...
+    Motivate the reader, the first part of the introduction gives always a
+    motivation and tries to give the overarching ideas. What I have done. 
+    The structure of the report, how it is organised. Explain structure of the rapport at the end of intro. 
+\end{comment}
+
+In this report we will look at Gradient decent (GD) methods and Neural Networks
+(NN).
+
+GD methods are an effective way to find the local (and hopefully global)
+minimum of a function. And it can not be understated how important GD methods
+are in machine learning, statistics and optimization because of their simple
+implementation and computational effectiveness.
+
+Neural networks are a subset of machine learning based on artificial neurons,
+weights and biases. These are important in many field and the use of NNs
+are growing rapidly. They are especially useful in medicine as they can be
+trained to recognize patterns in images much better than a human can. But we
+will likely see neural networks implemented for a huge number of applications
+in almost all industries in a couple of years. We will look at the benefits and
+disadvantages of neural networks in different use cases such as polynomial
+fitting.
+\\~\\
+First we will introduce the OLS and Ridge method of regression, which will be
+tested against the GD methods. Then we look at some of the most common GD methods. Namely plain
+GD, Stochastic GD, GD with momentum, and RMSProp, AdaGrad and Adam. 
+
+Then we move over to the neural network part of this report. We look at how to
+initialize the network, how it processed data, different activation functions and
+training using back propagation. We will then test the network on polynomial
+fitting against regression methods.
+
+After this we will test the network on a classification problem, namely
+the Wisconsin breast cancer dataset provided by sklearn. And at this point we
+will also implement logistic regression as this is suited for this particular
+dataset. 
