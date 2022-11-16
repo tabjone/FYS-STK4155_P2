@@ -170,7 +170,7 @@ of the image. For example, the output might be “cat”, “dog”, “bird”,
 
 We have chosen to train our network using the Wisconsin 
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load\_breast\_cancer.html?fbclid=IwAR0RNzOImikVXi41ecb14u\_qvUDybyIII43e9ySk0GEjyYWyPzybmmHeQWs}{\underline{breast
-cancer dataset}} by learn.
+cancer dataset}} by sklearn.
 
 There are 569 samples in the Wisconsin breast cancer data set and it has two
 classes, malignant and benign. Each of the samples has 30 features such as the
@@ -279,25 +279,25 @@ hyper-parameters is listed in table \ref{tab:runs_classification_cancer}. The di
     \begin{tabular}{|c|c|c|c|c|}
         \hline
 
-        Parameter & Run 4 & Run 5 \\
+        Parameter & Run 4 & Run 5 & Run 6\\
         \hline
-        eta & 0.001 & 0.001\\
+        eta & 0.001 & 0.001 & 0.001\\
         \hline
-        depth & 2  & 2\\
+        depth & 2  & 2 & 2\\
         \hline
-        width & 5   & 5\\
+        width & 5   & 5 & 5\\
         \hline
-        activation hidden & sigmoid & sigmoid, relu, leaky relu\\
+        activation hidden & sigmoid & sigmoid, relu, leaky relu & sigmoid\\
         \hline
-        gamma & 0.9, 0 & 0\\
+        gamma & 0.9, 0 & 0 & 0.9\\
         \hline
-        lambd & 0  & 0\\
+        lambd & 0  & 0 & 0.01\\
         \hline
-        tuning method & none, adam, rms prop, adagrad  & none\\
+        tuning method & none, adam, rms prop, adagrad  & none & adagrad\\
         \hline
-        n mini batches & 20  & 20\\
+        n mini batches & 20  & 20 & 20\\
         \hline
-        epochs & 200  & 200\\
+        epochs & 200  & 200 & 300\\
         \hline
          
     \end{tabular} 
