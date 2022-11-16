@@ -3,35 +3,39 @@
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/gd_MSE(eta,lmb)}
-\caption{Plain gradient descent MSE as a function of \(\eta \) and \(\lambda \).}
+\caption{Plain gradient descent: test MSE as a function of \(\eta \) and \(\lambda \). 
+The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 1.}
 \label{fig:gd_MSE-eta-lmb-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/gdm_MSE(eta,lmb)}
-\caption{Gradient descent with momentum MSE as a function of \(\eta \) and \(\lambda \).}
+\caption{Gradient descent with momentum: test MSE as a function of \(\eta \) and \(\lambda \).
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 1.}
 \label{fig:gdm_MSE-eta-lmb-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/sgd_MSE(eta,lmb)}
-\caption{Plain stochastic gradient descent MSE as a function of \(\eta \) and \(\lambda \).}
+\caption{Plain stochastic gradient descent: test MSE as a function of \(\eta \) and \(\lambda \).
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 1.}
 \label{fig:sgd_MSE-eta-lmb-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/sgdm_MSE(eta,lmb)}
-\caption{Stochastic gradient descent with momentum MSE as a function of \(\eta \) and \(\lambda \).}
+\caption{Stochastic gradient descent with momentum: test MSE as a function of \(\eta \) and \(\lambda \).
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 1.}
 \label{fig:sgdm_MSE-eta-lmb-}
 \end{figure}
 
-Figure \ref{fig:gd_MSE-eta-lmb-}-\ref{fig:sgdm_MSE-eta-lmb-} shows MSE scores for 
-stochastic gradient descent without ans with momentum, and stochastic gradient descent
-without and with momentum, respectively. 
+Figure \ref{fig:gd_MSE-eta-lmb-}-\ref{fig:sgdm_MSE-eta-lmb-} shows MSE scores of the test data for 
+plain and stochastic gradient descent with and without momentum as a function of
 different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \). 
+
 
 
 \begin{figure}[H]
@@ -142,7 +146,24 @@ different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \).
   \caption{Test MSE}
   \label{fig:test_leaky_relu_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function leaky relu MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function leaky relu: MSE as a function of \(\eta \) and \(\lambda \) }
+\label{fig:leaky_relu_MSE}
+\end{figure}
+
+\begin{figure}[htpb]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_sigmoid_NN_MSE(eta,lmb)}
+  \caption{Sigmoid MSE}
+  \label{fig:train_leaky_relu_MSE-eta-lmb-}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_relu_NN_MSE(eta,lmb)}
+  \caption{Relu MSE}
+  \label{fig:test_leaky_relu_MSE-eta-lmb-}
+\end{subfigure}
+\caption{SkLearn neural network with activation function sigmoid and relu: Train MSE as a function of \(\eta \) and \(\lambda \) }
 \label{fig:leaky_relu_MSE}
 \end{figure}
 
