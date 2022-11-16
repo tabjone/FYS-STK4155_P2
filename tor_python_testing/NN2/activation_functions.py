@@ -22,7 +22,14 @@ class ActivationSoftmax:
 
 class ActivationSigmoid:
     def forward(self, inputs):
-        self.output = (inputs < 0) * np.exp(inputs)/(1+np.exp(inputs)) + (inputs >= 0) * 1/(1+np.exp(-inputs))
+        self.output = (inputs < 0) * np.exp(inputs)/(1+np.exp(inputs)) + (inputs > 0) * 1/(1+np.exp(-inputs))
     
     def derivative(self, inputs):
         self.derivative_output = (1-self.output)*inputs
+
+class ActivationIdentity:
+    def forward(self, inputs):
+        self.output = inputs
+
+    def derivative(self, inputs):
+        self.derivative_output = np.ones_like(inputs)
