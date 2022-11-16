@@ -5,8 +5,9 @@ rg = Generator(PCG64(1234))
 
 class Neuron:
     def __init__(self, n_inputs):
-        self.weights = rg.uniform(0, 2, n_inputs) - 1
-        self.bias = 0.001
+        #self.weights = (rg.uniform(0, 2, n_inputs) - 1) * 0.0001
+        self.weights = np.random.randn(n_inputs) * 0.0001
+        self.bias = 0
 
     def forward(self, inputs):
         """inputs are outputs of previous layer (of what layer this neuron is in) or activation funciton"""
@@ -23,9 +24,9 @@ class Layer:
             self.neurons.append(Neuron(n_inputs))
 
     def forward(self, inputs):
-        for i in range(len(self.neurons)):
-            self.neurons[i].forward(inputs)
-            self.output[i] = self.neurons[i].output
+        for j in range(len(self.neurons)):
+            self.neurons[j].forward(inputs)
+            self.output[j] = self.neurons[j].output
         
 
 

@@ -5,7 +5,7 @@ rg = Generator(PCG64(1234))
 import matplotlib.pyplot as plt
 
 from activation_functions import *
-from loss_functions import *
+#from loss_functions import *
 
 
 #SOFTMAX activation function
@@ -93,7 +93,7 @@ def cost_OLS(predicted, target):
     return 1/2 * np.sum((prediced-target)**2)
 
 def derivative_cost_OLS(predicted, target):
-    return (targets-predicted)/(predicted*(1-predicted))
+    return (target-predicted)
 
 
 class neural_network:
@@ -102,10 +102,11 @@ class neural_network:
         self.h = h
         #X is input data, h is number of neurons per layer
         self.layer1 = Layer_Dense(np.size(X,axis=1), h)
-        self.activation1 = Activation_ReLU()
+        self.activation1 = ActivationSigmoid()
 
         self.layer2 = Layer_Dense(h, np.size(X,axis=1))
-        self.activation2 = Activation_ReLU()
+        print(np.size(X, axis=1))
+        self.activation2 = ActivationIdentity()
         
     def forward(self):
         self.layer1.forward(X)
@@ -113,18 +114,22 @@ class neural_network:
         self.layer2.forward(self.activation1.output)
         self.activation2.forward(self.layer2.output)
 
+        self.activation1.derivative(self.layer1.output)
+        self.activation2.derivative(self.layer2.output)
+
         self.output = self.activation2.output
 
     def backprop(self, target):
         eta = 0.001
         delta_L = self.activation2.derivative_output * derivative_cost_OLS(self.activation2.output, target)
         
-        delta_1 = 0
-        for k in range(0, len(delta_L)):
-            delta_1 += delta_L[k] * self.layer2.weights[k,:] * self.activation1.derivative(self.layer1.output)
-       
-        self.layer2.weights = self.layer2.weights - eta * delta_L * self.activation1
-#derivative_output
+        #print(delta_L)
+        #delta_1 = 0
+        #for k in range(0, len(delta_L)):
+        #    delta_1 += delta_L[k] * self.layer2.weights[k,:] * self.activation1.derivative_output
+
+        #self.layer2.weights = self.layer2.weights - eta * delta_L * self.activation1
+
 
 
 
@@ -140,11 +145,12 @@ def simple_cost(output, taget):
 
 X = np.zeros((100, 1))
 X[:,0] = np.linspace(0,2*np.pi, 100)
-y = np.sin(X[:,0])
+y = np.sin(X)
 
 NN = neural_network(X, 4)
 NN.forward()
-print(NN.output)
+NN.backprop(y)
+#print(NN.output)
 
 #print(len(X))
 #print(np.size(X,axis=1))
