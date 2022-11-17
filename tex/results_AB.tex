@@ -61,28 +61,33 @@ performance difference will come down to the randomly sampled minibatches in sto
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/_sgdm_MSE(eta,momentum)}
-\caption{Stochastic gradient descent: MSE as a function of momentum parameter $\gamma$  and \(\eta \)	 }
+\caption{Stochastic gradient descent: MSE as a function of momentum parameter
+    $\gamma$  and learning rate \(\eta \)	 }
 \label{fig:_sgdm_MSE-eta-momentum-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/AdaGrad_sgdm_MSE(eta,momentum)}
-\caption{Stochastic gradient descent, with momentum and tuning method AdaGrad: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\caption{Stochastic gradient descent, with momentum and tuning method AdaGrad:
+    MSE as a function of momentum parameter $\gamma$ and learning rate \(\eta \)	 }
 \label{fig:AdaGrad_sgdm_MSE-eta-momentum-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/RMSprop_sgdm_MSE(eta,momentum)}
-\caption{Stochastic gradient descent, with momentum and tuning method RMS\_prop: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\caption{Stochastic gradient descent, with momentum and tuning method
+    RMS\_prop: MSE as a function of momentum parameter $\gamma$ and learning
+    rate \(\eta \)	 }
 \label{fig:RMSprop_sgdm_MSE-eta-momentum-}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/ADAM_sgdm_MSE(eta,momentum)}
-\caption{Stochastic gradient descent, with momentum and tuning method ADAM: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\caption{Stochastic gradient descent, with momentum and tuning method ADAM: MSE
+    as a function of momentum parameter $\gamma$ and learning rate \(\eta \)	 }
 \label{fig:ADAM_sgdm_MSE-eta-momentum-}
 \end{figure}
 
@@ -120,10 +125,18 @@ learning rates $\eta $.
 \label{fig:minibatch_80_MSE-iter-pdf}
 \end{figure}
 
-
-
-
-
+%%%% TODO: Write about this, but first find out why adam is so wierd
+%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+In figure \ref{fig:minibatch_2_MSE-iter-pdf} -
+\ref{fig:minibatch_80_MSE-iter-pdf} we can see the MSE as a function of
+iterations for 2, 5, 10 and 80 minibatch sizes. And we note that the bigger the
+minibatch, the smaller the MSE gets by each iteration. This makes sense as you
+include more and more of the training set and would therefore expect the MSE to
+get smaller. 
+\end{comment}
+%%%%%%
+%%%%%%%
 
 \begin{figure}[H]
 \centering
