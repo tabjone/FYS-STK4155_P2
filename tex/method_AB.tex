@@ -79,9 +79,10 @@ parameter "RMSprop rho" and ADAM parameters "ADAM (beta1, beta2)".
 Our Neural Network implemented in Python was used to fit the same polynomial as the one fitted with 
 gradient descent in equation \ref{eq:polynomial_A}, but now with $1000$ linearly 
 spaced input values $x \epsilon [-1,1]$. As this is a regression problem, we 
-did not use any output activation functions, and the mean squared error was employed 
+did not use any activation functions on the output layer, and the mean squared error was employed 
 as the cost function in our neural network. We used sigmoid, relu or leaky relu as activation function 
-for the hidden layers. 
+for the hidden layers. The wheights were initialized using a normal distribution with variance 1, and the 
+biases were initialized with value $0,01$.  
 
 To optimize the polynomial fit, we studied the mean squared error of our trained network
 with different parameters described in table \ref{tab:NN_polynomial_parameters}.
@@ -89,7 +90,7 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters}.
 \begin{table}[htpb]
 \centering
 \caption{Neural network polynomial fit parameters for run 1 and 2}
-\label{tab:NN_polynomial_parameters}
+\label{tab:NN_polynomial_parameters1}
 \begin{tabular}{c@{\hspace{1cm}} c@{\hspace{1cm}} c}
 	\hline 
 	Parameter & Run 1 & Run 2 \\
@@ -110,7 +111,7 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters}.
 \begin{table}[htpb]
 \centering
 \caption{Neural network polynomial fit parameters for run 3 and 4}
-\label{tab:NN_polynomial_parameters}
+\label{tab:NN_polynomial_parameters2}
 \begin{tabular}{c@{\hspace{1cm}} c@{\hspace{1cm}} c}
 	\hline 
 	Parameter & Run 3 & Run 4 \\
@@ -131,7 +132,7 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters}.
 \begin{table}[htpb]
 \centering
 \caption{Neural network polynomial fit parameters for run 5}
-\label{tab:NN_polynomial_parameters}
+\label{tab:NN_polynomial_parameters3}
 \begin{tabular}{c@{\hspace{1cm}} c}
 	\hline 
 	Parameter & Run 5  \\
@@ -148,3 +149,22 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters}.
 \end{tabular}
 
 \end{table}
+
+For benchmarking we used \verb|sklearn MLPRegressor| on "etaa" array with different learning rates
+and "lambd" array with different L2 regularization parameters as shown in the code below:
+
+\begin{lstlisting}[language=Python]
+from sklearn.linear_model import LogisticRegression
+
+j=0
+for eta in etaa:
+    i = 0
+    for lmb in lambd:
+        NN_sigmoid = MLPRegressor(hidden_layer_sizes=(5), activation="logistic", solver="sgd", alpha=lmb, batch_size = batch_size, learning_rate_init = eta, momentum = 0, max_iter=n_epochs ,n_iter_no_change=2000)
+        NN_sigmoid.fit(x_train, y_train.ravel())  # x_train column vector with input values, y_train column vector with target values
+        MSE[j, i] = NN_sigmoid.loss_  
+        i+=1
+    j+=1
+\end{lstlisting}
+
+
