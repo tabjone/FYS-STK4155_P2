@@ -181,19 +181,67 @@ is small enough that it can be used to train a neural network without requiring
 much computational power.
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Cross Entropy}
+Cross entropy is a measure of how well a set of predicted probabilities match
+the actual classification. If the predicted probabilities are exactly correct,
+then the cross entropy will be zero. If the predicted probabilities are far
+from the actual classification, then the cross entropy will be large.
+
+We will use the binary cross entropy as our cost function. 
+We will interpret the Sigmoid function as the probability that our sample
+is benign, $P(y=1)$ (see section \ref{sec:nn_classification})
+The expression for the binary cross entropy is; $-log(P(y=1))$ if the sample
+belong to calss 1 (benign), 
+and $-log(1-P(y=1))$ if the sample belongs to class 0 (malignant). 
+
+If we sum over all the n data points we get our cost function \cite{w41}: 
+\begin{equation*}
+    \label{eq:cross_entropy} 
+\mathcal{C}(\boldsymbol{\theta}) = - \ln P(\mathcal{D} \mid \boldsymbol{\theta}) = - \sum_{i=1}^n
+y_i \ln[P(y_i = 0)] + (1 - y_i) \ln [1 - P(y_i = 0)] 
+\end{equation*}
+, where $\mathcal{D}$ is our datset, $\bm{\theta }$ is our hyper parameters and $y_i$
+is the target value. 
+
+
 % Methods: 
 % Normalizing data 
 % splitting of data 
 
+\subsubsection{Accuracy}
+
 
 % XXX: Scaling after split
 
-All code was implemented and analyzed in Python. Thus function names refers to
-specify python packages and modules.  
+\subsubsection{Binary classification with Neural Network}
+\label{sec:nn_classification} 
+
+All code was implemented and analyzed in Python. Mentioned function names refers to
+specific python packages and modules. To reproduce the figures, run the file
+with name \verb|test_analysis.py| in the following GitHub repository, \url{https://github.com/jensjpedersen/Projects_FYS-STK4155/tree/main/Project2}
 
 Our cancer data was split into training and test data, with a test size of
 20\%. 
-Scikit-learn's \verb|train_test_split| method was used for this purpose. 
+Scikit-learn's \verb|train_test_split| method was used for this purpose. In
+order to keep the dataset splits consistent between runs, the
+\verb|random_state| parameter was set to zero. The flowing code can be used to
+reproduce our data. 
+\begin{verbatim}
+    from sklearn.datasets import load_breast_cancer
+    from sklearn.model_selection import train_test_split 
+    np.random.seed(5)
+    cancer = load_breast_cancer()
+    targets = cancer.target[:,np.newaxis]
+    test_size = 0.2
+    features = cancer.feature_names
+    X_train, X_test, y_train, y_test = train_test_split(cancer.data,targets,
+                                        random_state=0, test_size=test_size)
+\end{verbatim}
+
+
+
 
 
 Before attempting to train the network the data was scaled, since each
@@ -207,9 +255,8 @@ with the numpy's random module.
 
 % Output layers Cost score
 Since our data only consist if two classes, malignant and benign we will use
-the binary Cross Entropy as a cost function. Where our targets is a column vector
-with 0 and 1 (benign and malignant). % FIXME: or opposite
-
+the binary Cross Entropy (equation \ref{eq:cross_entropy}) as our cost function. Where our targets is a column vector
+with 0's and 1's (malignant and benign). % FIXME: or opposite
 
 
 % Activation output layer
@@ -234,7 +281,25 @@ For our binary classification problem it follows that:
 % Table with params
 In order to find the optimal values for hyper-parameteres, multiple runs with
 different combination of hyper-parameter was used. All runs with it's specific
-hyper-parameters is listed in table \ref{tab:runs_classification_cancer}. The different alorithms %XXX ref 
+hyper-parameters is listed in table \ref{tab:runs_classification_cancer}.
+
+Our predicted accuracy score in Run 6 was benchmarked with Keras (Python API for Tensor
+Flow), but with some changes to the hyper-parameter values. The following
+python code was used to predict the accuracy with the Keras api:    
+\begin{verbatim}
+import tensorflow as tf
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(5, activation=tf.nn.sigmoid))
+model.add(tf.keras.layers.Dense(5, activation=tf.nn.sigmoid))
+model.add(tf.keras.layers.Dense(1, activation=tf.nn.sigmoid))
+opt= tf.keras.optimizers.Adagrad(learning_rate=1)
+model.compile(optimizer=opt, loss='BinaryCrossentropy', metrics=['accuracy'])
+model.fit(X_train, y_train, epochs=300, batch_size=len(y_train))
+val_loss, val_acc = model.evaluate(X_test, y_test)
+print(val_acc)
+\end{verbatim}
+
+
 
 
 
@@ -305,7 +370,7 @@ hyper-parameters is listed in table \ref{tab:runs_classification_cancer}. The di
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Logistic regression}
+\subsubsection{Logistic regression}
 
 Logistic regression is a statistical method for classifying data into two
 groups. It is often used in binary classification problems.
@@ -344,11 +409,18 @@ Again, we used cross entropy as our cost function. In order to speed up the
 convergence rate of the SGD method, we included momentum, $\gamma = 0.9$ in all our
 calculations. We did experiment with different number of mini-batches,
 different values for the learning rate $\gamma$ and L2 regularization parameters
-$\lambda $, to see of we could reproduce the results from our FFNN.   
-
-
+$\lambda $, to see if we could reproduce the results from our FFNN.   
 
 % Benchmarking with sklearn code 
+We did use the sklearn package to benchmark our logistic regression result,
+with the following python code:
+\begin{verbatim}
+from sklearn.linear_model import LogisticRegression
+logreg = LogisticRegression(solver='lbfgs')
+logreg.fit(X_train, y_train)
+print(logreg.score(X_test,y_test))
+\end{verbatim}
+
 
 
 
