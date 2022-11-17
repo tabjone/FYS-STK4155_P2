@@ -273,6 +273,53 @@ best on the test data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Logistic regression}
+% Study the results as functions of teh chosen learning rates 
+% Add l2 regularization
+
+In figure the accuracy score obtained with logistic regression is plotted for
+different number of mini-batches. Again a small mini-batch size seems to be the
+obvious choice as discussed for our neural network. In figure
+\ref{fig:e_heatmap_train_lambd_vs_eta_gamma_0_9_epochs_200} and
+\ref{fig:e_heatmap_test_lambd_vs_eta_gamma_0_9_epochs_200} the accuracy on the
+Cancer Data is plotted with different learning rates and L2-regularization
+parameters for the train and test data respectively. The best score for both
+the training and test data was obtained with a learning rate $\eta = 0.001$
+without any regularization. Our best prediction on the test data got an
+accuracy of 0.9035. Our neural network code does contain 11 times as many
+weights. Thus, we expect it to be able to produce more complex patterns. 
+With did benchmark our result against scikit-learn's Logistic regression
+method. We then got a test accuracy of  0.9649. We was not able to improve our
+logistic regression algorithm to produce this result. We do not suspect that
+our implementation is wrong. Scikit-learn's may contain further optimization.
+Hence, the better accuracy score. However, our Neural Network did produce a
+better accuracy score than Scikit-learns logistic regression method.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartE/e_line_n_minibatches_gamma_0_9.png}
+    \caption{fig:Accuracy score obtained with logistic regression on the
+        Wisconsin Breast Cacner data. Predication on training and test data is
+    plotted for different number of mini-batches as indicated in the label.}  
+    \label{fig:e_line_n_minibatches_gamma_0_9} 
+
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartE/e_heatmap_train_lambd_vs_eta_gamma_0_9_epochs_200.png}
+    \caption{Accuracy score on Wisconsin Breast Cancer training data, with
+    respect to different learning rates and L2 regularization parameters.}  
+    \label{fig:e_heatmap_train_lambd_vs_eta_gamma_0_9_epochs_200} 
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartE/e_heatmap_test_lambd_vs_eta_gamma_0_9_epochs_200.png}
+    \caption{Accuracy score on Wisconsin Breast Cancer test data, with
+    respect to different learning rates and L2 regularization parameters.}  
+    \label{fig:e_heatmap_train_lambd_vs_eta_gamma_0_9_epochs_200} 
+\end{figure}
 
 
 

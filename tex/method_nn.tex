@@ -48,11 +48,11 @@ functions.
 A property that characterizes a neural network, other than its connectivity, is
 the choice of activation function(s). 
 The following restrictions are imposed on an activation function for a FFNN to
-fulfill the universal approximation theorem.
-- Non-constant
-- Bounded
-- Monotonically-increasing
-- Continuous
+fulfill the universal approximation theorem\\
+- Non-constant \\
+- Bounded \\
+- Monotonically-increasing \\
+- Continuous \\
 
 The second requirement excludes all linear functions. Furthermore, in a MLP
 with only linear activation functions, each layer simply performs a linear
@@ -340,7 +340,15 @@ network consisted of an input layer outputting 30 feature vectors, and an
 output layer of one node and the sigmoid function as the activation function.
 Our feed forward pass in the network, therefore takes the form as in equation
 \ref{eq:log_reg}, where $\beta _i$ is the weights into the output layer. 
-Again, we used cross entropy as our cost function.  
+Again, we used cross entropy as our cost function. In order to speed up the
+convergence rate of the SGD method, we included momentum, $\gamma = 0.9$ in all our
+calculations. We did experiment with different number of mini-batches,
+different values for the learning rate $\gamma$ and L2 regularization parameters
+$\lambda $, to see of we could reproduce the results from our FFNN.   
+
+
+
+% Benchmarking with sklearn code 
 
 
 
