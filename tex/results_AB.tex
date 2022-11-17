@@ -47,8 +47,8 @@ optimizing the coefficients of a same order polynomial as the target, overfittin
 We are therefore better off without the L2-regularzation parameter. 
 
 The momentum 
-term is proportional to the previous variable change, such that when overshooting, this vector term will be in the 
-(somewhat) opposite direction and thus causing less of a step wich is why we observe the MSE blowing up without momentum,
+term is proportional to the previous variable change, such that the components of this vector term that overshoots will  
+be in the opposite direction and thus causing less of a step wich is why we observe the MSE blowing up without momentum,
 while not blowing up with momentum for $\eta =0.9$. Momentum also gives better scores as it allows for bigger steps
 before the minima of the cost function is traversed. 
 
@@ -95,64 +95,54 @@ learning rates $\eta $.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_2_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 2}
-\label{fig:minibatch_2_MSE-iter-pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 2.}
+\label{fig:minibatch_2_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_5_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 5}
-\label{fig:minibatch_5_MSE-iter-pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 5.}
+\label{fig:minibatch_5_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_10_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 10}
-\label{fig:minibatch_10_MSE-iter-pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 10.}
+\label{fig:minibatch_10_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_80_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 80}
-\label{fig:minibatch_80_MSE-iter-pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 80.}
+\label{fig:minibatch_80_MSE-iter}
 \end{figure}
 
-
-
-
+Figure \ref{fig:minibatch_2_MSE-iter}-\ref{fig:minibatch_80_MSE-iter} shows the natural logarithm of MSE as a function of iterations
+for minibatch size 2, 5, 10 and 80 respectively. Each figure shows stochastic gradient descent with momentum parameter $\gamma $ for no tuning method (plain),
+tuning method AdaGrad, RMSprop and ADAM utilized to fit the polynomial in equation \ref{eq:polynomial_A}. As the training data 
+size is 80, minibatch size 80 corresponds to non-stochastic gradient descent. The reason the plots dissapear in the vicinity of $y=-70$ 
+is that the MSE traverses the lowest positive number possible in python such that they are set to zero wich is undefined in the logarithm function. 
+We observe faster convergence with larger minibatch sizes for all the methods. No tuning method, AdaGrad and RMSprop have similar performance for minibatch 
+sizes 80 and 10. For smaller sizes, we observe that AdaGrad performs best closely followed by RMSprop, while Plain starts deviating and is its MSE is 
+exploding for minibatch size 2. ADAM performs worst (except compared to the exploding Plain) and is converging quite a lot slower, allthough the difference 
+seems to lessen with smaller minibatch size. Smaller minibatch size introduces the probability of more variance in the gradient which suggests ADAM might be more 
+applicable to more complex cost functions.   
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/PlainMSE(iter).pdf}
-\caption{MSE as a function of iterations for plain and stochastic gradient descent with and without momentum}
-\label{fig:PlainMSE-iter-pdf}
+\includegraphics[width=0.8\textwidth]{Figures/PartA/sgd_polynomial_fit}
+\caption{Resulting polynomial after stochastic gradient descent with optimizer AdaGrad compared to the target function.}
+\label{fig:sgd_polynomial_fit}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/AdaGradMSE(iter).pdf}
-\caption{MSE as a function of iterations using tuning method AdaGrad for plain and stochastic gradient descent with and without momentum}
-\label{fig:AdaGradMSE-iter-pdf}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/RMSpropMSE(iter).pdf}
-\caption{MSE as a function of iterations using tuning method RMSprop for plain and stochastic gradient descent with and without momentum}
-\label{fig:RMSpropMSE-iter-pdf}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/ADAMMSE(iter).pdf}
-\caption{MSE as a function of iterations using tuning method ADAM for plain and stochastic gradient descent with and without momentum}
-\label{fig:ADAMMSE-iter-pdf}
-\end{figure}
-
+Figure \ref{fig:sgd_polynomial_fit} shows the resulting polynomial from stochastic gradient descent with tuning method AdaGrad compared 
+to the target polynomial. As expected from the MSE analysis, the prediction is perfect at eye level. A perfect fit could also easily be achived 
+with for example ordinary least squares, allthough this is computationally heavy for huge datasets where the option of using minibatches in 
+stochastic gradient descent would be beneficial. 
 
 \subsection{Neural Network Regression}
 
