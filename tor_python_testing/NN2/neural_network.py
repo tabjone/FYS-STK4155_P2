@@ -6,7 +6,7 @@ Cost function: C= - 0.5*(target - predicted)^2
 dC/dtarget = t-p
 """
 class NeuralNetwork:
-    def __init__(self, n_inputs, n_layers, n_neurons):
+    def __init__(self, n_inputs, n_layers, n_neurons, n_classes=1):
         self.n_layers = n_layers
 
         self.layers = []
@@ -21,7 +21,9 @@ class NeuralNetwork:
             self.activations.append(ActivationSigmoid())
         #output layer
         self.layers.append(Layer(len(self.layers[-1].neurons), n_inputs))
-        self.activations.append(ActivationSigmoid())
+        self.activations.append(ActivationIdentity())
+        #print(len(self.layers))
+        print(self.activations)
 
     def forward(self, inputs):
         for l in range(len(self.layers)):
@@ -41,7 +43,7 @@ class NeuralNetwork:
         #error output
         error_output = np.zeros(len(self.layers[-1].neurons))
         for j in range(len(error_output)):
-            error_output[j] = self.activations[-1].derivative_output[j] * (target[j] - self.output[j])
+            error_output[j] = self.activations[-1].derivative_output[j] * (target[j] - self.output[j])*(-1)
         
         error_layers.append(error_output)
         
@@ -76,25 +78,32 @@ class NeuralNetwork:
 
 
 def MSE(target, predicted):
-    return np.sum((target-predicted)**2)
+    return np.mean((target-predicted)**2)
 
 
 if __name__ == '__main__':
     x = np.linspace(0, 2*np.pi, 100)
-    y = x
+    y = np.sin(x)
     
-    n_layers_ = 4
-    n_neutrons_ = 5
+    n_layers_ = 2
+    n_neutrons_ = 50
     nn = NeuralNetwork(len(x), n_layers=n_layers_, n_neurons=n_neutrons_)
-    Nepochs = 15
+    Nepochs = 1000
     
     accuracy = []
     for i in range(Nepochs):
         nn.forward(x)
         nn.backprop(y, x)
         accuracy.append(MSE(nn.output, y))
-    nn.forward(x)
-    
+     
+    #nn.forward(x)
+    #nn.backprop(y,x)
+    #nn.forward(x)
+    #print(nn.output)
+
+    #print(nn.output)
+    #nn.forward(x)
+    #print(nn.output)
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(1,2)
     fig.suptitle('{} epochs, {} layer, {} neurons/layer'.format(Nepochs, n_layers_, n_neutrons_))

@@ -34,7 +34,94 @@ The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under
 
 Figure \ref{fig:gd_MSE-eta-lmb-}-\ref{fig:sgdm_MSE-eta-lmb-} shows MSE scores of the test data for 
 plain and stochastic gradient descent with and without momentum as a function of
-different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \). 
+different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \). Both plain and 
+stochastic gradient descent has the same amount of total iterations as there are $25$ sgd epochs 
+and $n\_data/mini\_batch\_size=80/20=4$ minibatches giving a total amount of $25 \cdot 4 = 100$ 
+iterations for stochastic gradient descent. We observe that we get a better MSE score with larger 
+learning rates up to a point where the score blows up shown for $\eta=1$. This makes sense as larger 
+learning rates results in larger update to the parameters $\bf{\theta } $. Thus, too large learning reate 
+will overshoot the minima of the cost function, while too small will cause slow convergence.  
+We also observe the MSE to increase with increasing L2-regularzation parameter $\lambda $. This also 
+makes sense as $\lambda $ counters overfitting at the cost of poorer training fit, but since we are 
+optimizing the coefficients of a same order polynomial as the target, overfitting will not be a problem.
+We are therefore better off without the L2-regularzation parameter. 
+
+The momentum 
+term is proportional to the previous variable change, such that when overshooting, this vector term will be in the 
+(somewhat) opposite direction and thus causing less of a step wich is why we observe the MSE blowing up without momentum,
+while not blowing up with momentum for $\eta =0.9$. Momentum also gives better scores as it allows for bigger steps
+before the minima of the cost function is traversed. 
+
+The performance of plain and stochastic gradient descent is similar, with plain being slightly better. As the 
+cost functions are convex, there is no local minimas for plain gradient descent to get stuck on, such that the 
+performance difference will come down to the randomly sampled minibatches in stochastic gradient descent. 
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/_sgdm_MSE(eta,momentum)}
+\caption{Stochastic gradient descent: MSE as a function of momentum parameter $\gamma$  and \(\eta \)	 }
+\label{fig:_sgdm_MSE-eta-momentum-}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/AdaGrad_sgdm_MSE(eta,momentum)}
+\caption{Stochastic gradient descent, with momentum and tuning method AdaGrad: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\label{fig:AdaGrad_sgdm_MSE-eta-momentum-}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/RMSprop_sgdm_MSE(eta,momentum)}
+\caption{Stochastic gradient descent, with momentum and tuning method RMS\_prop: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\label{fig:RMSprop_sgdm_MSE-eta-momentum-}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/ADAM_sgdm_MSE(eta,momentum)}
+\caption{Stochastic gradient descent, with momentum and tuning method ADAM: MSE as a function of momentum parameter $\gamma$ and \(\eta \)	 }
+\label{fig:ADAM_sgdm_MSE-eta-momentum-}
+\end{figure}
+
+Figure \ref{fig:_sgdm_MSE-eta-momentum-}-\ref{fig:ADAM_sgdm_MSE-eta-momentum-}, shows the MSE from stochastic gradient descent for different
+learning rates $\eta $ and momentum parameters $\gamma $ for no tuning method, AdaGrad, RMSprop and ADAM. We observe that ADAM does not benefit 
+from momentum, while AdaGrad, RMSprop, and plain stochastic gradient descent shows best results for momentum parameter $\gamma =0.4$ with appropriate 
+learning rates $\eta $.  
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_2_MSE(iter).pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 2}
+\label{fig:minibatch_2_MSE-iter-pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_5_MSE(iter).pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 5}
+\label{fig:minibatch_5_MSE-iter-pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_10_MSE(iter).pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 10}
+\label{fig:minibatch_10_MSE-iter-pdf}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_80_MSE(iter).pdf}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: MSE as a function of iterations with minibatch size 80}
+\label{fig:minibatch_80_MSE-iter-pdf}
+\end{figure}
+
+
+
 
 
 
@@ -64,36 +151,6 @@ different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \).
 \includegraphics[width=0.8\textwidth]{Figures/PartA/ADAMMSE(iter).pdf}
 \caption{MSE as a function of iterations using tuning method ADAM for plain and stochastic gradient descent with and without momentum}
 \label{fig:ADAMMSE-iter-pdf}
-\end{figure}
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/_sgdm_MSE(eta,epochs)}
-\caption{Stochastic gradient descent with momentum MSE as a function of epoch number and \(\eta \)	 }
-\label{fig:_sgdm_MSE-eta-epochs-}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/AdaGrad_sgdm_MSE(eta,epochs)}
-\caption{Stochastic gradient descent, with momentum and tuning method AdaGrad, MSE as a function of epoch number and \(\eta \)	 }
-\label{fig:AdaGrad_sgdm_MSE-eta-epochs-}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/RMSprop_sgdm_MSE(eta,epochs)}
-\caption{Stochastic gradient descent, with momentum and tuning method RMS\_prop, MSE as a function of epoch number and \(\eta \)	 }
-\label{fig:RMSprop_sgdm_MSE-eta-epochs-}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{Figures/PartA/ADAM_sgdm_MSE(eta,epochs)}
-\caption{Stochastic gradient descent, with momentum and tuning method ADAM, MSE as a function of epoch number and \(\eta \)	 }
-\label{fig:ADAM_sgdm_MSE-eta-epochs-}
 \end{figure}
 
 
