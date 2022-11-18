@@ -134,9 +134,8 @@ We observe faster convergence with larger minibatch sizes for all the methods. N
 sizes 80 and 10. For smaller sizes, we observe that AdaGrad performs best closely followed by RMSprop, while Plain starts deviating and is its MSE is 
 exploding for minibatch size 2. ADAM performs worst (except compared to the exploding Plain) and is converging quite a lot slower, allthough the difference 
 seems to lessen with smaller minibatch size. Smaller minibatch size introduces the probability of more variance in the gradient which suggests ADAM might be more 
-applicable to more complex cost functions.   
+applicable to more complex cost functions.    
 
-=======
 %%%% TODO: Write about this, but first find out why adam is so wierd
 %%%%%%%%%%%%%%%%%%%%
 \begin{comment}
@@ -220,16 +219,30 @@ stochastic gradient descent would be beneficial.
   \centering
   \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_sigmoid_NN_MSE(eta,lmb)}
   \caption{Sigmoid MSE}
-  \label{fig:train_leaky_relu_MSE-eta-lmb-}
+  \label{fig:sklearn_sigmoid_MSE-eta-lmb-}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_relu_NN_MSE(eta,lmb)}
   \caption{Relu MSE}
-  \label{fig:test_leaky_relu_MSE-eta-lmb-}
+  \label{fig:sklearn_relu_MSE-eta-lmb-}
 \end{subfigure}
 \caption{SkLearn neural network with activation function sigmoid and relu: Train MSE as a function of \(\eta \) and \(\lambda \) }
-\label{fig:leaky_relu_MSE}
+\label{fig:sklearn_MSE}
 \end{figure}
+
+Figure \ref{fig:Sigmoid_MSE}-\ref{fig:leaky_relu_MSE} shows training (a) and test (b) MSE for different 
+L2-regularzation parameter $\lambda $ and differnt learning rates $\eta $ using activation function Sigmoid, ReLU and leaky 
+ReLU on the hidden layer. The same scheme are shown in figure \ref{fig:sklearn_MSE} with activation functions Sigmoid (a) 
+and ReLU (b) using \verb|sklearn MLPRegressor|. For sigmoid, we observe that the MSE seems to get stuck around value 0.04
+for the larger $\lambda $ and $\eta $ values. %%%%% TODO why?
+It is difficult to determine the optimal parameters as no trend is observable other than $\eta $ should be larger than 
+$0.0500$ and less than $0.5000$, while $\lambda $ should be less than $0.0100$ or a even smaller value. The best score was achived with 
+$\eta =0.0100$ and $\lambda = 0.3875$, but every neighboring values are poor suggesting this might just be a lucky run from the 
+model's randomness. More runs with different 
+random seeds should be analyzed to give more certain answers. 
+With ReLU as activation function, there seems to be a trend where for smaller $\eta $', larger $\lambda $ is beneficial. The 
+best score was obtained with $\eta =0.100$ and $\lambda  =0.0001$. 
+
 
 

@@ -214,7 +214,7 @@ score of 0.9912. We suspected that this was due to luck and random events in
 our mini-batch selection method. 
 % Compare with keras
 Overall our model seemed to perform really well on a Classification problem
-with the Wisconsin Breast Cancer data. We compared our results from run 6 with Keras
+with the Wisconsin Breast Cancer data. We compared our results from run 6 with Kares
 (python API for Tensor Flow), With the exact same parameters, except $\eta =
 1$ and $\gamma = 0$. We then got a test accuracy prediction of 0.9825, that
 matches our finding. 
@@ -224,17 +224,32 @@ matches our finding.
 We originally tried to find the optimal parameters of the Network, by improving
 a few parameters at the time. However, our best parameter choices created a
 model with excellent predations after only a few epochs. Therefore, we decide
-to removed some of the parameters to better be able to study how each individual
+to remove some of the parameters to better be able to study how each individual
 parameter affected the model. However, there is not certain that all the
-parameters will play nicely together. Thus a more methodical approach should
+parameters will play nicely together. Thus, a more methodical approach should
 have been applied in order how different parameters affect each other.     
 
-To better control the randomness in our model we should have predefined a
-mini batch sequence, and also used the same initial weights when this was
-possible. Then we chould have more easily seen if the variations in our
-predictions was due to random events or not. We did not study how the weights
-and bias initialization affected the results. 
+% To better control the randomness in our model we should have predefined a
+% mini batch sequence, and also used the same initial weights when this was
+% possible. Then we should have more easily seen if the variations in our
+% predictions was due to random events or not. We did not study how the weights
+% and bias initialization affected the results. 
 
+From the literature we found
+that models created with an artificial neural network and random forest
+produces test accuracy's of 92.44 and 95.64 respectively \cite{Vig2014ComparativeAO}. Our model does a
+better job on the test data. We don't expect our simple FINN code to be
+superior to others. However, we do not suspect any error in implementation
+since our benchmarking gave the same result.   
+
+There is one serious drawback with our approach. We did not use any re-sampling
+technique when we trained our model. Our high accuracy score is probably due to
+our specific train-data subset selection. Bootstrap re-sampling would have been
+a good choice to better control the randomness in our model. Then we would have
+got better insight model variation due to parameter selection, and not random
+events. However, this approach would have been too expensive for our
+laptops. Therefore, a re-sampling technique such as k-fold cross validation
+should have been applied.  
 
 
 \begin{figure}[H]
@@ -244,10 +259,6 @@ and bias initialization affected the results.
     tried to find the overall best hyper-parameter combination}  
     \label{fig:d_line_best} 
 \end{figure}
-
-
-
-
 
 
 After all these calculations there is only a few obvious choices for
