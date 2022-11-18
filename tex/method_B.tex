@@ -1,4 +1,5 @@
 
+
 \subsection{Neural Network polynomial fitting}
 
 Our Neural Network implemented in Python was used to fit the same polynomial as the one fitted with 
@@ -58,18 +59,18 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters}.
 \centering
 \caption{Neural network polynomial fit parameters for run 5}
 \label{tab:NN_polynomial_parameters3}
-\begin{tabular}{c@{\hspace{1cm}} c}
+\begin{tabular}{c@{\hspace{1cm}} c@{\hspace{1cm}} c}
 	\hline 
-	Parameter & Run 5  \\
+	Parameter & Run 5 & Run 6  \\
 	\hline 
-	eta  & \verb|logspace(-6, 0, 7)| \\
-	depth  & 1 \\
-	width  & 5 \\
-	activation hidden & relu \\
-	gamma & 0 \\
-	lambd & $(0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1)$ \\
-	n minibatches & 10 \\
-	epochs & 2000 \\
+	eta  & \verb|logspace(-6, 0, 7)| & 0.1 \\
+	depth  & 1 & 1 \\
+	width  & 5 & 5 \\
+	activation hidden & relu & sigmoid \\
+	gamma & 0 & 0 \\
+	lambd & $(0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1)$ & 0 \\
+	n minibatches & 10 & 10 \\
+	epochs & 2000 & 2000 \\
 	\hline 
 \end{tabular}
 
@@ -91,5 +92,4 @@ for eta in etaa:
         i+=1
     j+=1
 \end{lstlisting}
-
 

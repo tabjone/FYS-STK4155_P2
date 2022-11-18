@@ -62,7 +62,7 @@ performance difference will come down to the randomly sampled minibatches in sto
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/_sgdm_MSE(eta,momentum)}
 \caption{Stochastic gradient descent: MSE as a function of momentum parameter
-    $\gamma$  and learning rate \(\eta \)	 }
+    $\gamma$  and learning rate \(\eta \). The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 2	 }
 \label{fig:_sgdm_MSE-eta-momentum-}
 \end{figure}
 
@@ -70,7 +70,7 @@ performance difference will come down to the randomly sampled minibatches in sto
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/AdaGrad_sgdm_MSE(eta,momentum)}
 \caption{Stochastic gradient descent, with momentum and tuning method AdaGrad:
-    MSE as a function of momentum parameter $\gamma$ and learning rate \(\eta \)	 }
+    MSE as a function of momentum parameter $\gamma$ and learning rate \(\eta \). The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 2	 }
 \label{fig:AdaGrad_sgdm_MSE-eta-momentum-}
 \end{figure}
 
@@ -78,8 +78,8 @@ performance difference will come down to the randomly sampled minibatches in sto
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/RMSprop_sgdm_MSE(eta,momentum)}
 \caption{Stochastic gradient descent, with momentum and tuning method
-    RMS\_prop: MSE as a function of momentum parameter $\gamma$ and learning
-    rate \(\eta \)	 }
+    RMSprop: MSE as a function of momentum parameter $\gamma$ and learning
+    rate \(\eta \). The parameters utilized are shown in table \ref{tab:GD_parameters_run_1_2} under run 2	 }
 \label{fig:RMSprop_sgdm_MSE-eta-momentum-}
 \end{figure}
 
@@ -87,7 +87,7 @@ performance difference will come down to the randomly sampled minibatches in sto
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/ADAM_sgdm_MSE(eta,momentum)}
 \caption{Stochastic gradient descent, with momentum and tuning method ADAM: MSE
-    as a function of momentum parameter $\gamma$ and learning rate \(\eta \)	 }
+    as a function of momentum parameter $\gamma$ and learning rate \(\eta \). The parameters utilized are shown in table \ref{tab:GD_parameters_run_3_4} under run 3	 }
 \label{fig:ADAM_sgdm_MSE-eta-momentum-}
 \end{figure}
 
@@ -100,28 +100,32 @@ learning rates $\eta $.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_2_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 2.}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 2.
+The parameters utilized are shown in table \ref{tab:GD_parameters_run_3_4} under run 4.}
 \label{fig:minibatch_2_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_5_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 5.}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 5.
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_3_4} under run 4.}
 \label{fig:minibatch_5_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_10_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 10.}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 10.
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_3_4} under run 4.}
 \label{fig:minibatch_10_MSE-iter}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/minibatch_80_MSE(iter).pdf}
-\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 80.}
+\caption{Stochastic gradient descent using plain, AdaGrad, RMSprop and ADAM as tuning methods: ln(MSE) as a function of iterations with minibatch size 80.
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_3_4} under run 4.}
 \label{fig:minibatch_80_MSE-iter}
 \end{figure}
 
@@ -152,7 +156,8 @@ get smaller.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/sgd_polynomial_fit}
-\caption{Resulting polynomial after stochastic gradient descent with optimizer AdaGrad compared to the target function.}
+\caption{Resulting polynomial after stochastic gradient descent with optimizer AdaGrad compared to the target function.
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_5}}
 \label{fig:sgd_polynomial_fit}
 \end{figure}
 
@@ -176,7 +181,8 @@ stochastic gradient descent would be beneficial.
   \caption{Test MSE}
   \label{fig:test_sigmoid_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function Sigmoid: MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function Sigmoid: MSE as a function of \(\eta \) and \(\lambda \).
+The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters1} under run 1.}
 \label{fig:Sigmoid_MSE}
 \end{figure}
 
@@ -193,7 +199,8 @@ stochastic gradient descent would be beneficial.
   \caption{Test MSE}
   \label{fig:test_relu_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function relu: MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function relu: MSE as a function of \(\eta \) and \(\lambda \).
+ The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters1} under run 2.}
 \label{fig:relu_MSE}
 \end{figure}
 
@@ -210,7 +217,8 @@ stochastic gradient descent would be beneficial.
   \caption{Test MSE}
   \label{fig:test_leaky_relu_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function leaky relu: MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function leaky relu: MSE as a function of \(\eta \) and \(\lambda \). 
+ The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters2} under run 3.}
 \label{fig:leaky_relu_MSE}
 \end{figure}
 
@@ -227,7 +235,9 @@ stochastic gradient descent would be beneficial.
   \caption{Relu MSE}
   \label{fig:sklearn_relu_MSE-eta-lmb-}
 \end{subfigure}
-\caption{SkLearn neural network with activation function sigmoid and relu: Train MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{SkLearn neural network with activation function sigmoid and relu: Train MSE as a function of \(\eta \) and \(\lambda \).
+ The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters2} under run 4 and in table \ref{tab:NN_polynomial_parameters3}
+ under run 5 for Sigmoid and ReLU respectively.}
 \label{fig:sklearn_MSE}
 \end{figure}
 
@@ -253,7 +263,19 @@ training and test MSE, we observe that the trained network does not seem to suff
 
 Our results seems reasonable by comparing with the results form \verb|sklearn's| neural network, allthough for different learning rates
 and \verb|sklearn's| model does not seem to benefit from L2-regularzation. This is because our implementation of the L2-regularization 
-parameter was wrong as discussed in section \ref{sec:}.
+parameter was wrong as discussed in section \ref{sec:error_l2_regularization}.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{Figures/PartB/NN_polyfit_result}
+\caption{Resulting output after training the neural network with activation function sigmoid compared to the training target. 
+The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters3} under run 6.}
+\label{fig:NN_polyfit_result}
+\end{figure}
 
+Figure \ref{fig:NN_polyfit_result} shows the resulting polynomial fit after training the neural network with activation function Sigmoid. 
+Comparing our model to the target, we observe pretty similar shapes allthough we can clearly see some deviation. The polynomial fit obtain 
+from gradient descent were much better (which is also obvious comparing MSE), but we have to keep in mind that gradient descent used the second 
+order polynomial design matrix such that it was given the information of which order polynomial to optimize (which were the same order as the target poltnomial)
+, while the neural network did not have this information. 
 
