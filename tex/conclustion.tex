@@ -1,30 +1,30 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 
+%GD methods
+We fit a second order polynomial using a variety of GD methods. Specifically we
+looked at regular GD, momentum GD, plain, SGD, momentum SGD and also using AdaGrad, Adam 
+and RMSProp for tuning the learning rate of SGD. We found that for all methods
+a smaller learning rate gave better MSE and that adding a L2-regularization
+gave worse MSE. This is likely due to an error in our program and should be
+looked at more in future work. We also found that adding a momentum parameter
+gave better MSE scores for all methods except for Adam, which it is unclear why
+does not benefit from this.
+%TODO: Why does adam not benefit from momentum? (Maybe sentence over is stupid)
+For increasing batch sizes of the stochastic methods we found that all methods
+converged to low MSE values faster, the higher the batch sizes, except for
+Adam. This could be because Adam is better at noisy datasets, and we tried to
+fit a second order polynomial without any noise using second order parameters,
+so that we in theory could get a perfect fit. This should be explored in future
+work, using different datasets.
+
+
 \begin{comment}
 State your main findings and interpretations. 
 Try as far as possible to present perspectives for future work. 
 Try to discuss the pros and cons of the methods and possible improvements.
 \\~\\
 Main findings:
-    gradient methods: 
-        Fitted second order polynomial.
-        Found that smaller learning gave better MSE and L2-regularization gave
-        worse MSE. Because optimizer used same order L2 gave worse results.
-        Because lambda counters overfitting at the cost of poorer training fit.
-        And here overfit was no problem. Future work is to test on more
-        datasets.
-
-        Also found that for momentum parameter everyone got better MSE scores
-        except adam.
-
-        
-        all methods had about the same convergence, except adam which was slow
-        on the polynomial dataset with no noise.
-        Possible future work is to run this on more complex datasets.
-        
-        Bigger minibatch sizes made faster convergence.
-
 
     Neural network (regression):
         Sigmoid: Lambda did not play huge role for big learning rates, but for
@@ -37,14 +37,8 @@ Main findings:
         Overall we see that learning rate plays huge role. But not lambda, for
         regression.
         
-
-    Classifiction:
-        Minibatches: Clear trend of faster convergence when increasing number
-        of mini-batches
-
-
 Perspectives for future work:
-    ...
+    Sparse network. 
 
 Pros/Cons of methods and possible improvments:
 Was the models used good? What worked and what didn't?
@@ -54,10 +48,11 @@ Was the models used good? What worked and what didn't?
     neural network regression:
         We used a dense neural network. This could be made sparse
         
-
     classification:
         use of sigmoid activation for output in classification. Could be replaced
         by softmax for classifying non-binary problems.
+
+Con/improvement: wrong expression for L2-parameter.
     
 
 

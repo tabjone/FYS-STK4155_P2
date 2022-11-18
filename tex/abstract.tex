@@ -1,0 +1,27 @@
+\begin{comment}
+    The abstract gives the reader a quick overview of what has been done and the most important results.
+\end{comment}
+
+\begin{abstract}
+    In this project we did implement our own Feed Forward Neural Network (FFNN)
+    with numerous optimization methods.    
+
+    % TODO: GD
+    % TODO: NN
+
+    % Classification 
+    In the last part we did a classification analysis on the Wisconsin Breast
+    Cancer data. We experimented with different hyperparameter combinations.
+    In our last run we tried to find the overall best parameter combination. 
+    This resulted in an accuracy score of 0.9825 on our test data. According to
+    the literature the result is better than what is to be expected for the
+    Wisconsin Breast Cancer data. The reason is that we did not include any re
+    sampling methods when we trained our model.
+
+    We did find an error in the calculation of our L2 regularization parameter,
+    $\lambda$. $\lambda $ was multiplied with the gradient of the weights
+    instead of the weights from the previous iteration, effectively acting as
+    an increased learning rate. Our analysis of the L2-regularization parameter
+    is therefore invalid and should not be cited.  
+
+\end{abstract}
