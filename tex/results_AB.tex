@@ -166,13 +166,13 @@ stochastic gradient descent would be beneficial.
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sigmoid_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/train_sigmoid_MSE(eta,lmb)}
   \caption{Train MSE}
   \label{fig:train_sigmoid_MSE-eta-lmb-}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/test_sigmoid_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/test_sigmoid_MSE(eta,lmb)}
   \caption{Test MSE}
   \label{fig:test_sigmoid_MSE-eta-lmb-}
 \end{subfigure}
@@ -183,13 +183,13 @@ stochastic gradient descent would be beneficial.
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_relu_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/train_relu_MSE(eta,lmb)}
   \caption{Train MSE}
   \label{fig:train_relu_MSE-eta-lmb-}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/test_relu_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/test_relu_MSE(eta,lmb)}
   \caption{Test MSE}
   \label{fig:test_relu_MSE-eta-lmb-}
 \end{subfigure}
@@ -200,13 +200,13 @@ stochastic gradient descent would be beneficial.
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_leaky_relu_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/train_leaky_relu_MSE(eta,lmb)}
   \caption{Train MSE}
   \label{fig:train_leaky_relu_MSE-eta-lmb-}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/test_leaky_relu_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/test_leaky_relu_MSE(eta,lmb)}
   \caption{Test MSE}
   \label{fig:test_leaky_relu_MSE-eta-lmb-}
 \end{subfigure}
@@ -217,13 +217,13 @@ stochastic gradient descent would be beneficial.
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_sigmoid_NN_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/train_sklearn_sigmoid_NN_MSE(eta,lmb)}
   \caption{Sigmoid MSE}
   \label{fig:sklearn_sigmoid_MSE-eta-lmb-}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.2\linewidth]{Figures/PartB/train_sklearn_relu_NN_MSE(eta,lmb)}
+  \includegraphics[width=1.1\linewidth]{Figures/PartB/train_sklearn_relu_NN_MSE(eta,lmb)}
   \caption{Relu MSE}
   \label{fig:sklearn_relu_MSE-eta-lmb-}
 \end{subfigure}
@@ -232,17 +232,28 @@ stochastic gradient descent would be beneficial.
 \end{figure}
 
 Figure \ref{fig:Sigmoid_MSE}-\ref{fig:leaky_relu_MSE} shows training (a) and test (b) MSE for different 
-L2-regularzation parameter $\lambda $ and differnt learning rates $\eta $ using activation function Sigmoid, ReLU and leaky 
+L2-regularzation parameter $\lambda $ (lambd) and differnt learning rates $\eta $ (eta) using activation function Sigmoid, ReLU and leaky 
 ReLU on the hidden layer. The same scheme are shown in figure \ref{fig:sklearn_MSE} with activation functions Sigmoid (a) 
 and ReLU (b) using \verb|sklearn MLPRegressor|. For sigmoid, we observe that the MSE seems to get stuck around value 0.04
 for the larger $\lambda $ and $\eta $ values. %%%%% TODO why?
 It is difficult to determine the optimal parameters as no trend is observable other than $\eta $ should be larger than 
-$0.0500$ and less than $0.5000$, while $\lambda $ should be less than $0.0100$ or a even smaller value. The best score was achived with 
-$\eta =0.0100$ and $\lambda = 0.3875$, but every neighboring values are poor suggesting this might just be a lucky run from the 
+$0.0500$ and less than $0.5000$, while $\lambda $ should be less than $0.0100$. The best score was achived with 
+$\eta =0.0100$ and $\lambda = 0.3875$ , but every neighboring values are poor suggesting this might just be a lucky run from the 
 model's randomness. More runs with different 
 random seeds should be analyzed to give more certain answers. 
-With ReLU as activation function, there seems to be a trend where for smaller $\eta $', larger $\lambda $ is beneficial. The 
-best score was obtained with $\eta =0.100$ and $\lambda  =0.0001$. 
+With ReLU as activation function,the best score was obtained with $\eta =0.1000$ and $\lambda  =0.0001$. There seems to be a trend 
+where for smaller $\eta $', larger $\lambda $ is beneficial. The same trend is visible for leaky ReLU where the best score 
+was for $\eta= 10^{-6}$ and $\lambda = 0.0100$.
+
+Using activation function sigmoid for the hidden layer gave the best score with $MSE=6.4388 \cdot 10^{-6}$ for the polynomial test data.
+Then the next best test score was obtained using ReLU with $MSE=6.9764 \cdot 10^{-5}$, but with less of chance that the network 
+gets stuck at training MSE around $0.044$. Leaky ReLU performed worst with a score of $MSE=2.6404 \cdot 10^{-4}$, but it also 
+had the least probability of getting stuck. Thus every activation function had its advantages and disadvantages. Comparing 
+training and test MSE, we observe that the trained network does not seem to suffer from overfitting.  
+
+Our results seems reasonable by comparing with the results form \verb|sklearn's| neural network, allthough for different learning rates
+and \verb|sklearn's| model does not seem to benefit from L2-regularzation. This is because our implementation of the L2-regularization 
+parameter was wrong as discussed in section \ref{sec:}.
 
 
 
