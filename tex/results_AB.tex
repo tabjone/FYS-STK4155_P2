@@ -95,7 +95,8 @@ performance difference will come down to the randomly sampled minibatches in sto
 Figure \ref{fig:_sgdm_MSE-eta-momentum-}-\ref{fig:ADAM_sgdm_MSE-eta-momentum-}, shows the MSE from stochastic gradient descent for different
 learning rates $\eta $ and momentum parameters $\gamma $ for no tuning method, AdaGrad, RMSprop and ADAM. We observe that ADAM does not benefit 
 from momentum, while AdaGrad, RMSprop, and plain stochastic gradient descent shows best results for momentum parameter $\gamma =0.4$ with appropriate 
-learning rates $\eta $.  
+learning rates $\eta $. Generally, the optimal learning rates decreases with grater $\\gamma  $ which makes sense since more momentum
+will increase the stepsize. 
 
 
 \begin{figure}[H]
@@ -158,7 +159,7 @@ get smaller.
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PartA/sgd_polynomial_fit}
 \caption{Resulting polynomial after stochastic gradient descent with optimizer AdaGrad compared to the target function.
- The parameters utilized are shown in table \ref{tab:GD_parameters_run_5}}
+ The parameters utilized are shown in table \ref{tab:GD_parameters_run_5_6}}
 \label{fig:sgd_polynomial_fit}
 \end{figure}
 
@@ -182,9 +183,9 @@ used is listed in table \ref{tab:NN_polynomial_parameters3} under Run 6.}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/PartB/heatmap_test_polydata_width_vs_depth.png}
-    \caption{MSE score predicted on the polynomial test data with respect
+    \caption{Neural network with activation function Sigmoid: MSE score from prediction on the polynomial data with respect
     different number of hidden nodes (Width) and layers (Depth). Parameters
-used is listed in table \ref{tab:NN_polynomial_parameters3} under Run 6.}  
+used are listed in table \ref{tab:NN_polynomial_parameters3} under Run 6.}  
     \label{fig:polydata_test_width_vs_depth} 
 \end{figure}
 
@@ -193,7 +194,7 @@ Figure \ref{fig:polydata_train_width_vs_depth} and figure \ref{fig:polydata_test
 respectively training and test MSE for different numbers of hidden layers, and different numbers of 
 nodes in the hidden layer(s). The best MSE was obtained 
 with 1 hidden layer consisting of 5 nodes. With width 10 and 20, the network gets stuck on training MSE around
-$0.044$, such that less width should be explored when searching for optimal structure.  
+$0.044$, such that less width should be explored when searching for optimal structure.   
 
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
@@ -271,13 +272,14 @@ The parameters utilized are shown in table \ref{tab:NN_polynomial_parameters1} u
 Figure \ref{fig:Sigmoid_MSE}-\ref{fig:leaky_relu_MSE} shows training (a) and test (b) MSE for different 
 L2-regularzation parameter $\lambda $ (lambd) and differnt learning rates $\eta $ (eta) using activation function Sigmoid, ReLU and leaky 
 ReLU on the hidden layer. The same scheme are shown in figure \ref{fig:sklearn_MSE} with activation functions Sigmoid (a) 
-and ReLU (b) using \verb|sklearn MLPRegressor|. For sigmoid, we observe that the MSE seems to get stuck around value 0.04
-for the larger $\lambda $ and $\eta $ values. %%%%% TODO why?
+and ReLU (b) using \verb|sklearn MLPRegressor|. For sigmoid, we observe that the MSE are more likely to get stuck
+for the larger $\lambda $ and $\eta $ values. 
 It is difficult to determine the optimal parameters as no trend is observable other than $\eta $ should be larger than 
 $0.0500$ and less than $0.5000$, while $\lambda $ should be less than $0.0100$. The best score was achived with 
 $\eta =0.0100$ and $\lambda = 0.3875$ , but every neighboring values are poor suggesting this might just be a lucky run from the 
 model's randomness. More runs with different 
-random seeds should be analyzed to give more certain answers. 
+random seeds should be analyzed to give more certain answers.
+
 With ReLU as activation function,the best score was obtained with $\eta =0.1000$ and $\lambda  =0.0001$. There seems to be a trend 
 where for smaller $\eta $', larger $\lambda $ is beneficial. The same trend is visible for leaky ReLU where the best score 
 was for $\eta= 10^{-6}$ and $\lambda = 0.0100$.
