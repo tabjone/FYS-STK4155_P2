@@ -57,15 +57,15 @@ with different parameters described in table \ref{tab:NN_polynomial_parameters1}
 
 \begin{table}[htpb]
 \centering
-\caption{Neural network polynomial fit parameters for run 5}
+\caption{Neural network polynomial fit parameters for run 5 and 6}
 \label{tab:NN_polynomial_parameters3}
 \begin{tabular}{c@{\hspace{1cm}} c@{\hspace{1cm}} c}
 	\hline 
 	Parameter & Run 5 & Run 6  \\
 	\hline 
-	eta  & \verb|logspace(-6, 0, 7)| & 0.1 \\
-	depth  & 1 & 1 \\
-	width  & 5 & 5 \\
+	eta  & \verb|logspace(-6, 0, 7)| & 0.3875 \\
+	depth  & 1 & 1, 2, 3 \\
+	width  & 5 & 5, 10, 20 \\
 	activation hidden & relu & sigmoid \\
 	gamma & 0 & 0 \\
 	lambd & $(0, 10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1)$ & 0 \\
