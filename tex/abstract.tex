@@ -1,13 +1,30 @@
-\begin{comment}
-    The abstract gives the reader a quick overview of what has been done and the most important results.
-\end{comment}
 
 \begin{abstract}
+    %% TODO: IDK how good this sentence fits here now?
     In this project we did implement our own Feed Forward Neural Network (FFNN)
     with numerous optimization methods.    
+    
 
-    % TODO: GD
+    %%%% FEEL FREE TO REMOVE THIS AND RE-WRITE
+    %GD METHODS
+    We started by fitting a second order polynomial with the gradient decent
+    methods of plain GD and stochastic with the AdaGrad and ADAM and RMSProp
+    optimizers. We found that the stochastic methods in general converged
+    faster (less iterations to reach low MSE), the more number of minibatches
+    we used.
+
+    And when looking at momentum
+    we found that in general we could have higher learning rates when the
+    momentum parameter was closer to one. But for the plain GD it was
+    especially important with a low learning rate.
+
+
     % TODO: NN
+    %%NN
+    
+
+
+
 
     % Classification 
     In the last part we did a classification analysis on the Wisconsin Breast
@@ -25,3 +42,9 @@
     is therefore invalid and should not be cited.  
 
 \end{abstract}
+
+\begin{comment}
+    The abstract gives the reader a quick overview of what has been done and the most important results.
+
+\end{comment}
+
