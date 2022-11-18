@@ -211,6 +211,13 @@ is the target value.
 % splitting of data 
 
 \subsubsection{Accuracy}
+We used the accuracy score to measure the performance of our model. The
+accuracy score is defined as: 
+\begin{equation*}
+    \text{Accuracy} = \frac{\sum_{i=1}^{n} I(t_i = y_i)}{n}, 
+\end{equation*}
+where n is the number of samples. $I$ is equal to 1 if we correctly predicted
+the target values and 0 else.  
 
 
 % XXX: Scaling after split

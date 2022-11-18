@@ -2,8 +2,7 @@
 \section{Results and Discussion}
 \input{./results_AB.tex}
 
-\subsection{Neural Network}
-% This is also in AB?
+
 
 \subsection{Classification}
 
@@ -18,7 +17,7 @@
 %%%%%%%%%%%%%%% Run 1 %%%%%%%%%%%%%%%
 % Line plot with varying number of mini-batches
 
-In figure \ref{fig:d_line_batch_size} the Accuracy score is plotted for
+In figure \ref{fig:d_line_batch_size} the accuracy score is plotted for
 different number of mini-batches. We observe that the convergence rate
 increases with increasing number of mini-batches. This trend is expected. The
 total amount of iterations/training is higher for a larger number for
@@ -224,17 +223,12 @@ matches our finding.
 % improvements
 We originally tried to find the optimal parameters of the Network, by improving
 a few parameters at the time. However, our best parameter choices created a
-model with excellent predations after only a few epochs. Therefore, we decide
+model with excellent predations after only a few epochs. Therefore, we decided
 to remove some of the parameters to better be able to study how each individual
 parameter affected the model. However, there is not certain that all the
 parameters will play nicely together. Thus, a more methodical approach should
-have been applied in order how different parameters affect each other.     
+have been applied in order to see how different parameters affect each other.     
 
-% To better control the randomness in our model we should have predefined a
-% mini batch sequence, and also used the same initial weights when this was
-% possible. Then we should have more easily seen if the variations in our
-% predictions was due to random events or not. We did not study how the weights
-% and bias initialization affected the results. 
 
 From the literature we found
 that models created with an artificial neural network and random forest
@@ -252,23 +246,29 @@ events. However, this approach would have been too expensive for our
 laptops. Therefore, a re-sampling technique such as k-fold cross validation
 should have been applied.  
 
+To better control the randomness in our model we should have predefined a
+mini batch sequence, and also used the same initial weights when this was
+possible. Then we could have more easily seen if the variations in our
+predictions was due to random events or not. We did not study how the weights
+and bias initialization affected the results. Insight in how random events
+affected our model could have been obtained by applying Bootstrap re-sampling. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/PartD/d_line_best.png}
     \caption{Run 6: Plot of accuracy score for train and test data, where we
-    tried to find the overall best hyper-parameter combination}  
+    tried to find the overall best hyperparameter combination}  
     \label{fig:d_line_best} 
 \end{figure}
 
 
 After all these calculations there is only a few obvious choices for
-hyper-parameters. A larger number of mini-batches did increase the accuracy,
-convergence rate and reduces CPU cycles. We did not observe any over-fitting in 
-our model, but a larger value for lambda did increase the convergence rate.
+hyperparameters. A larger number of mini-batches did increase the accuracy,
+convergence rate and reduces required CPU cycles. We did not observe any over-fitting in 
+our model, but a larger value of lambda did increase the convergence rate.
 There was no clear trend in accuracy score with respect to network
 architecture, but a depth of 2 and width of 5 gave the best prediction on the
-test data. Tuning methods such as Adam and rms prop, significantly improved the
+test data. Tuning methods such as Adam and RMS prop, significantly improved the
 convergence rate. Adagrad and manual tuning was inferior to rms prop and adam,
 but significantly improved when momentum was added. Adagrad then performed the
 best on the test data. 
@@ -330,6 +330,20 @@ better accuracy score than Scikit-learns logistic regression method.
     respect to different learning rates and L2 regularization parameters.}  
     \label{fig:e_heatmap_train_lambd_vs_eta_gamma_0_9_epochs_200} 
 \end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Error in L2-regularzation} \label{sec:error_l2_regularization} 
+After our report was completed and ready for delivery we found an error in how
+the L2 regularization parameter was calculated. Instead of multiplying the
+regularization parameter with our weights from our previous iteration, the
+regularization parameters was multiplied with the gradient of the weights,
+effectively increasing the learning rate. Our analysis of the L2 regularization
+parameter is therefore not valid.
+
+
+
+
 
 
 
