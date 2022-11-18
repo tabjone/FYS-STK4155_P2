@@ -25,7 +25,7 @@ times without replacement from the data of size $n$, such that every data point 
 each epoch. 
 
 To find the best prediction, we analyzed the mean squared error resulting from different 
-parameters described in table \ref{tab:GD_parameters_run_1_2} and table \ref{tab:GD_parameters_run_3_4}.
+parameters described in table \ref{tab:GD_parameters_run_1_2}-\ref{tab:GD_parameters_run_5_6}.
 
 \begin{table}[H]
     \centering
@@ -69,22 +69,22 @@ parameters described in table \ref{tab:GD_parameters_run_1_2} and table \ref{tab
 
 \begin{table}[H]
     \centering
-    \caption{Parameters utilized in polynomial fitting using gradient descent for run 3 and 4. The parameter values in square brackets "[]" for the tuning tuning methods in the column title in corresponding order}  
-    \label{tab:GD_parameters_run_5} 
-\begin{tabular}{c@{\hspace{1cm}} c}
+    \caption{Parameters utilized in polynomial fitting using gradient descent for run 5 and 6. }  
+    \label{tab:GD_parameters_run_5_6} 
+\begin{tabular}{c@{\hspace{1cm}} c@{\hspace{1cm}} c}
 	\hline 
-	Parameter & Run 5 \\
+	Parameter & Run 5 & Run 6 \\
 	\hline 
-	$\eta$  & 0.9 \\
-	$\lambda$ & 0 \\
-	$\gamma$  & 0.4 \\ 
-	sgd epochs & 20 \\
-	mini batch size & 10 \\
+	$\eta$  & 0.9 & \\
+	$\lambda$ & 0 & \\
+	$\gamma$  & 0.4 & \\ 
+	sgd epochs & 20 & \\
+	mini batch size & 10 & \\
 	\hline 
 \end{tabular}
 \end{table}
 
-The parameters in table \ref{tab:GD_parameters_run_1_2} and \ref{tab:GD_parameters_run_3_4} are 
+The parameters in table \ref{tab:GD_parameters_run_1_2}-\ref{tab:GD_parameters_run_5_6} are 
 learning rate $\eta $, L2 regularization parameter $\lambda $, momentum parameter $\gamma $,
 number of gradient descent epochs "gd epochs", number of stochastic gradient descent epochs 
 "sgd epochs", stochastic gradient descent minibatch size "mini batch size", RMSprop
