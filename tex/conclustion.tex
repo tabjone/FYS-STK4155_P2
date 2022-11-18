@@ -34,11 +34,42 @@ Was the models used good? What worked and what didn't?
 
 \end{comment}
 
-% Possible directions and future improvements?
+% Possible directions and future improvements? XXX: See Discussion
 % NN classification
 % * should have controlled random events better, such as: 
 %   * initialziation of weights, biases 
 %   * selection of minibatces
 % Not sure how this affected the results and if the small variations in some
 % parameters can be attributed to random events   
+
+% Classification
+In our classification problem with our FFNN on the Wisconsin Breast Cancer
+data, we did experiment with different hyperparameters. We found that the most
+influential parameters was mini batch size, momentum, and tuning method.  
+10-20 mini batches was superior compared with fewer mini batches. Added
+momentum significantly improved our SGD (constant learning rate) and
+Adagrad method. Other tuning method such RMS prop and Adam did not benefit from
+added momentum. All tree tuning methods did preform similar and should be tested on a NN classification
+problem. Adagrad benefits from a higher learning rate than RMS prop and Adam.    
+
+After experimentation width different parameters, we manged to obtain an
+accuracy score of 0.9825 on the test data. According to the literature this is
+better than to be expected. One significant weakness with our approach is that
+we did not utilize any re-sampling technique. Thus, our high accuracy is probably a
+result of a lucky selection of training- and test-data. 
+
+Random events such a mini batch selection and weights selection should have
+been better controlled. Then, we could have more accurately determined if the
+variations in our scores was due to hyperparameter selection or random events.
+Re-sampling techniques could have been utilized to obtain this insight. 
+
+The same classification analysis obtained with logistic regression preformed
+worse, with an accuracy score of 0.9035. However, we manged to obtain an accuracy
+of 0.9649 with sci-kit learn (python package). Why the two results differ is
+not clear. Overall classification with a FFNN outperforms logistic regression. 
+
+
+
+
+
 
