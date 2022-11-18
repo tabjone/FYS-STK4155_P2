@@ -11,15 +11,10 @@ looked at more in future work. We also found that adding a momentum parameter
 gave better MSE scores for all methods except for Adam, which it is unclear why
 does not benefit from this.
 %TODO: Why does adam not benefit from momentum? (Maybe sentence over is stupid)
-For increasing batch sizes of the stochastic methods we found that all methods
-converged to low MSE values faster, the higher the batch sizes, except for
-Adam. This could be because Adam is better at noisy datasets, and we tried to
-fit a second order polynomial without any noise using second order parameters,
-so that we in theory could get a perfect fit. This should be explored in future
-work, using different datasets.
 
 
 %Neural network (regression)
+
 Then we tried to fit a neural network to the same polynomial. We used a dense
 neural network with one hidden layer and 5 neurons, using sigmoid, ReLU and
 leaky ReLU. In general for all the activation functions we got better MSE
@@ -27,6 +22,13 @@ scores the lower our learning rate was, and again the L2-parameter did not play
 a role. For future work we would try implementing a sparse neural network to
 decrease the number of computations required for a forward and backward pass of
 the network. 
+
+For increasing batch sizes of the stochastic methods we found that all methods
+converged to low MSE values faster, the higher the batch sizes, except for
+Adam. This could be because Adam is better at noisy datasets, and we tried to
+fit a second order polynomial without any noise using second order parameters,
+so that we in theory could get a perfect fit. This should be explored in future
+work, using different datasets.
 
 
 
