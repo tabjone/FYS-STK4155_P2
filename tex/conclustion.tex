@@ -18,13 +18,11 @@ Main findings:
         Also found that for momentum parameter everyone got better MSE scores
         except adam.
 
-        
         all methods had about the same convergence, except adam which was slow
         on the polynomial dataset with no noise.
         Possible future work is to run this on more complex datasets.
         
         Bigger minibatch sizes made faster convergence.
-
 
     Neural network (regression):
         Sigmoid: Lambda did not play huge role for big learning rates, but for
@@ -37,14 +35,8 @@ Main findings:
         Overall we see that learning rate plays huge role. But not lambda, for
         regression.
         
-
-    Classifiction:
-        Minibatches: Clear trend of faster convergence when increasing number
-        of mini-batches
-
-
 Perspectives for future work:
-    ...
+    Sparse network. 
 
 Pros/Cons of methods and possible improvments:
 Was the models used good? What worked and what didn't?
@@ -54,10 +46,11 @@ Was the models used good? What worked and what didn't?
     neural network regression:
         We used a dense neural network. This could be made sparse
         
-
     classification:
         use of sigmoid activation for output in classification. Could be replaced
         by softmax for classifying non-binary problems.
+
+Con/improvement: wrong expression for L2-parameter.
     
 
 
