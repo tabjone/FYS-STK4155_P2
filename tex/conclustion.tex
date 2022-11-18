@@ -8,10 +8,39 @@ Try to discuss the pros and cons of the methods and possible improvements.
 \\~\\
 Main findings:
     gradient methods: 
+        Fitted second order polynomial.
+        Found that smaller learning gave better MSE and L2-regularization gave
+        worse MSE. Because optimizer used same order L2 gave worse results.
+        Because lambda counters overfitting at the cost of poorer training fit.
+        And here overfit was no problem. Future work is to test on more
+        datasets.
 
-    Neural network regression:
+        Also found that for momentum parameter everyone got better MSE scores
+        except adam.
+
+        
+        all methods had about the same convergence, except adam which was slow
+        on the polynomial dataset with no noise.
+        Possible future work is to run this on more complex datasets.
+        
+        Bigger minibatch sizes made faster convergence.
+
+
+    Neural network (regression):
+        Sigmoid: Lambda did not play huge role for big learning rates, but for
+        small for smaller the MSE got decreased.
+        Relu: Not much impact by lambda. Same with leaky.
+        
+        Now sklearn: Lambda increased, MSE increase for sigmoid. Not much
+        effect for relu.
+
+        Overall we see that learning rate plays huge role. But not lambda, for
+        regression.
+        
 
     Classifiction:
+        Minibatches: Clear trend of faster convergence when increasing number
+        of mini-batches
 
 
 Perspectives for future work:
