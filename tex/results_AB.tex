@@ -37,7 +37,7 @@ plain and stochastic gradient descent with and without momentum as a function of
 different learning rates \(\eta \) and L2-regularzation parameters \(\lambda \). Both plain and 
 stochastic gradient descent has the same amount of total iterations as there are $25$ sgd epochs 
 and $n\_data/mini\_batch\_size=80/20=4$ minibatches giving a total amount of $25 \cdot 4 = 100$ 
-iterations for stochastic gradient descent. We observe that we get a better MSE score with larger 
+iterations for stochastic gradient descent. We observe that we get a worse MSE score with larger 
 learning rates up to a point where the score blows up shown for $\eta=1$. This makes sense as larger 
 learning rates results in larger update to the parameters $\bf{\theta } $. Thus, too large learning reate 
 will overshoot the minima of the cost function, while too small will cause slow convergence.  
@@ -177,7 +177,7 @@ stochastic gradient descent would be beneficial.
   \caption{Test MSE}
   \label{fig:test_sigmoid_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function Sigmoid MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function Sigmoid: MSE as a function of \(\eta \) and \(\lambda \) }
 \label{fig:Sigmoid_MSE}
 \end{figure}
 
@@ -194,7 +194,7 @@ stochastic gradient descent would be beneficial.
   \caption{Test MSE}
   \label{fig:test_relu_MSE-eta-lmb-}
 \end{subfigure}
-\caption{Neural network with activation function relu MSE as a function of \(\eta \) and \(\lambda \) }
+\caption{Neural network with activation function relu: MSE as a function of \(\eta \) and \(\lambda \) }
 \label{fig:relu_MSE}
 \end{figure}
 
