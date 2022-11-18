@@ -4,13 +4,19 @@
 %GD methods
 We fit a second order polynomial using a variety of GD methods. Specifically we
 looked at regular GD, momentum GD, plain, SGD, momentum SGD and also using AdaGrad, Adam 
-and RMSProp for tuning the learning rate of SGD. We found that for all methods
-a smaller learning rate gave better MSE and that adding a L2-regularization
-gave worse MSE. This is likely due to an error in our program and should be
-looked at more in future work. We also found that adding a momentum parameter
-gave better MSE scores for all methods except for Adam, which it is unclear why
-does not benefit from this.
-%TODO: Why does adam not benefit from momentum? (Maybe sentence over is stupid)
+and RMSProp for tuning the learning rate of SGD. We found that for a momentum
+of 0.8 decreasing the learning rate always led to a decrease in the MSE, but
+for momentum values of around 0.4 a higher learning rate of about 0.6-0.8 would
+produce better results. In general the lower the momentum was, the higher we
+could have our learning rates. But this could be due to the simplicity of the
+dataset and should be explored further in future work. The Adam method did not
+benefit from adding a momentum, which may be explained by it already having a
+first and second moment. 
+
+We also found that adding a L2-regularization gave worse MSE. 
+This is likely due to an error in our program and should be
+looked at more in future work. 
+
 For increasing batch sizes of the stochastic methods we found that all methods
 converged to low MSE values faster, the higher the batch sizes, except for
 Adam. This could be because Adam is better at noisy datasets, and we tried to

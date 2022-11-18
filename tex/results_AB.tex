@@ -169,8 +169,31 @@ stochastic gradient descent would be beneficial.
 
 \subsection{Neural Network Regression}
 
-Figure \ref{fig:} shows MSE for different numbers of hidden layers, and different numbers of nodes in the hidden layer(s). The best MSE was obtained 
-with 1 hidden layer consisting of 5 nodes. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartB/heatmap_train_polydata_width_vs_depth.png}
+    \caption{MSE score predicted on the polynomial training data with respect
+    different number of hidden nodes (Width) and layers (Depth). Parameters
+used is listed in table \ref{tab:NN_polynomial_parameters3} under Run 6.}  
+    \label{fig:polydata_train_width_vs_depth} 
+
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/PartB/heatmap_test_polydata_width_vs_depth.png}
+    \caption{MSE score predicted on the polynomial test data with respect
+    different number of hidden nodes (Width) and layers (Depth). Parameters
+used is listed in table \ref{tab:NN_polynomial_parameters3} under Run 6.}  
+    \label{fig:polydata_test_width_vs_depth} 
+\end{figure}
+
+
+Figure \ref{fig:polydata_train_width_vs_depth} and figure \ref{fig:polydata_test_width_vs_depth} shows 
+respectively training and test MSE for different numbers of hidden layers, and different numbers of 
+nodes in the hidden layer(s). The best MSE was obtained 
+with 1 hidden layer consisting of 5 nodes. With width 10 and 20, the network gets stuck on training MSE around
+$0.044$, such that less width should be explored when searching for optimal structure.  
 
 \begin{figure}[htpb]
 \begin{subfigure}{.5\textwidth}
