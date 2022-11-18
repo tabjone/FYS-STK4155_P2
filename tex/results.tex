@@ -332,6 +332,20 @@ better accuracy score than Scikit-learns logistic regression method.
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Error in L2-regularzation} \label{sec:error_l2_regularization} 
+After our report was completed and ready for delivery we found an error in how
+the L2 regularization parameter was calculated. Instead of multiplying the
+regularization parameter with our weights from our previous iteration, the
+regularization parameters was multiplied with the gradient of the weights,
+effectively increasing the learning rate. Our analysis of the L2 regularization
+parameter is therefore not valid.
+
+
+
+
+
+
 
 
 
