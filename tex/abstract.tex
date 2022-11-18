@@ -10,21 +10,26 @@
     We started by fitting a second order polynomial with the gradient decent
     methods of plain GD and stochastic with the AdaGrad and ADAM and RMSProp
     optimizers. We found that the stochastic methods in general converged
-    faster (less iterations to reach low MSE), the more number of minibatches
-    we used.
+    faster (less iterations to reach low MSE) with larger minibatches. 
 
-    And when looking at momentum
-    we found that in general we could have higher learning rates when the
-    momentum parameter was closer to one. But for the plain GD it was
-    especially important with a low learning rate.
+    Adding momentum was beneficial for all the gradient descent methods, except when 
+    utilizing the ADAM optimizer. We discovered that the ADAM optimizer did a lot worse 
+    than the other optimzers and than without any optimizer. AdaGrad and RMSprop performed 
+    similarly and these optimizer excelled ecspecially when reducing the minibatch sizes. 
+    
+    AdaGrad was the most suitable optimizer for the polynomial fitting problem and produced
+    a perfect fit to the target polynomial on eyesight. 
 
     %%NN
-    When moving over to polynomial fitting with a Neural Network (NN) we used a
-    dense neural network with one hidden layer of 5 neurons and looked at
-    different activation functions. We found the Sigmoid function gave a by eye
-    almost perfect fit after 2000 epochs and the MSE showed that all of the
-    activations produced a good fit. And decreasing the learning rate produced
-    better MSE. 
+    When moving over to polynomial fitting with a Neural Network (NN) we found that a
+    dense neural network with one hidden layer of 5 neurons produced the best results. 
+    We analyzed the results using activation function Sigmoid, ReLU and leaky ReLU. Each activation
+    function had its advantages and disadvantages with Sigmoid obtaining the best MSE score, but being
+    most probable to get stuck on poor MSE scores, while the opposite was true for leaky ReLU, and 
+    was in the midle on both properties. 
+
+    The resulting fit after 2000 iterations using Sigmoid was pretty similar to the target, allthough we could
+    clearly see some deviations. 
 
 
     % Classification 
