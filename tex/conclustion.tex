@@ -14,26 +14,29 @@ benefit from adding a momentum, which may be explained by it already having a
 first and second moment. 
 
 We also found that adding a L2-regularization gave worse MSE. 
-This is likely due to an error in our program and should be
-looked at more in future work. 
 
 For increasing batch sizes of the stochastic methods we found that all methods
-converged to low MSE values faster, the higher the batch sizes, except for
-Adam. This could be because Adam is better at noisy datasets, and we tried to
-fit a second order polynomial without any noise using second order parameters,
-so that we in theory could get a perfect fit. This should be explored in future
+converged to low MSE values faster. ADAM preformed quite a lot worse than the other 
+methods. This could be because Adam is better at noisy datasets, and we tried to
+fit a second order polynomial without any noise. This should be explored in future
 work, using different datasets.
 
 
 %Neural network (regression)
 Then we tried to fit a neural network to the same polynomial. We used a dense
-neural network with one hidden layer and 5 neurons, using sigmoid, ReLU and
-leaky ReLU. In general for all the activation functions we got better MSE
-scores the lower our learning rate was, and again the L2-parameter did not play
-a role. For future work we would try implementing a sparse neural network to
+neural network with one hidden layer and 5 neurons, with sigmoid, ReLU and
+leaky ReLU as activation functions for the hidden layer. Each activation
+function had its advantages and disadvantages with Sigmoid obtaining the best MSE score, but being
+most probable to get stuck on poor MSE scores, while the opposite was true for leaky ReLU, and 
+was in the midle with regards to both properties. 
+The L2-parameter was discovered to be implemented in a wrong way, such that it effectively changed the 
+learning rate. For future work we would try implementing a sparse neural network to
 decrease the number of computations required for a forward and backward pass of
 the network. 
 
+The resulting polynomial fit after 2000 iterations from our neural network were pretty similar to the target, allthough deviations
+were clearly visible. The neural network did a lot worse than gradient descent, but was able to give a good fit 
+without using a design matrix which were used by gradient descent. 
 
 
 \begin{comment}
